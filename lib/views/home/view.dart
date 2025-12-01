@@ -21,7 +21,7 @@ class _HomeViewState extends State<HomeView> {
     _Model("profile.svg", ProfilePage()),
   ];
 
-  int currentIndex = 0;
+  int currentIndex = 2;
 
   @override
   Widget build(BuildContext context) {

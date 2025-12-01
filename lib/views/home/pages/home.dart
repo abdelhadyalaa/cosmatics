@@ -1,5 +1,6 @@
 import 'package:cosmetics_app/core/components/app_image.dart';
 import 'package:cosmetics_app/core/components/app_input.dart';
+import 'package:cosmetics_app/core/components/app_search.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -13,10 +14,13 @@ class HomePage extends StatelessWidget {
           padding: EdgeInsets.all(13),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AppInput(),
+            children:[
+              AppSearch(
+
+              ),
               SizedBox(height: 13),
               ClipRRect(
+
                 borderRadius: BorderRadius.circular(20),
                 child: Stack(
                   alignment: Alignment.center,
@@ -46,7 +50,6 @@ class HomePage extends StatelessWidget {
                                     color: Color(0xff62322D),
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
-                                    fontFamily: "Montserrat",
                                   ),
                                 ),
                               ),
@@ -64,7 +67,6 @@ class HomePage extends StatelessWidget {
                                     color: Color(0xff434C6D),
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
-                                    fontFamily: "Montserrat",
                                   ),
                                 ),
                               ),
@@ -87,13 +89,13 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 14),
-
               GridView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
+
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  mainAxisExtent: 12,
+                  mainAxisSpacing: 12,
                   crossAxisSpacing: 12,
                   childAspectRatio: 176 / 237,
                 ),
@@ -114,13 +116,57 @@ class _Item extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
-      width: 100,
+      margin: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+      padding: EdgeInsets.all(8),
+
       decoration: BoxDecoration(
-        color: Colors.red,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(8),
+        boxShadow: [
+          BoxShadow(
+            offset: Offset(0, 2),
+            blurRadius: 10,
+            spreadRadius: 0,
+            blurStyle: BlurStyle.inner,
+            color: Colors.black.withValues(alpha: .25),
+          ),
+        ],
 
         // color: Color(0xffD9D9D9)
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: AppImage(
+                image:
+                    "https://i.pinimg.com/originals/11/f5/22/11f522c7f8ead5519a4b102723f0a89c.jpg",
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          SizedBox(height: 11),
+          Text(
+            "Face tint / lip tint",
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: Color(0xff434C6D),
+            ),
+          ),
+          SizedBox(height: 11),
+          Text(
+            "\$44.99",
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+              color: Color(0xff70839C),
+            ),
+          ),
+        ],
       ),
     );
   }
