@@ -57,7 +57,7 @@ class _Item extends StatelessWidget {
           ),
         ),
         Spacer(),
-        AppImage(image: "forward.svg"),
+        AppImage(image: "forward.icons"),
       ],
     );
   }

@@ -1,3 +1,4 @@
+import 'package:cosmetics_app/views/auth/login.dart';
 import 'package:cosmetics_app/views/home/view.dart';
 import 'package:cosmetics_app/views/onboarding/pageone.dart';
 import 'package:cosmetics_app/views/onboarding/pagethree.dart';
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
               color: Color(0xff8E8EA9),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25),
+              borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(color: Color(0xffB3B3C1)),
             ),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
@@ -52,9 +53,8 @@ class MyApp extends StatelessWidget {
 
           colorScheme: ColorScheme.fromSeed(seedColor: Color(0xffD75D72)),
         ),
-        home:HomeView() ,
+        home: LoginView(),
       ),
-
     );
   }
 }

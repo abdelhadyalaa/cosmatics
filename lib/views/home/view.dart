@@ -15,10 +15,10 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final list = [
-    _Model("home.svg", HomePage()),
-    _Model("categories.svg", CategoriesPage()),
-    _Model("my_cart.svg", CartPage()),
-    _Model("profile.svg", ProfilePage()),
+    _Model("home.icons", HomePage()),
+    _Model("categories.icons", CategoriesPage()),
+    _Model("my_cart.icons", CartPage()),
+    _Model("profile.icons", ProfilePage()),
   ];
 
   int currentIndex = 2;

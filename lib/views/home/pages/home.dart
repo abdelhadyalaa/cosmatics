@@ -53,12 +53,12 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              AppImage(image: "offer.svg"),
+                              AppImage(image: "offer.icons"),
                             ],
                           ),
                           Row(
                             children: [
-                              AppImage(image: "offer.svg"),
+                              AppImage(image: "offer.icons"),
                               Expanded(
                                 child: Text(
                                   "Hurry up! \nSkin care only !",

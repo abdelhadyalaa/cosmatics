@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import '../onboarding/pageone.dart';
 
 class SplashScreen extends StatefulWidget {
-
   const SplashScreen({super.key});
 
   @override
@@ -19,14 +18,15 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(Duration(seconds: 5), () {
       Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => PageOne()),
-              (route) => false);
+        context,
+        MaterialPageRoute(builder: (context) => PageOne()),
+        (route) => false,
+      );
     });
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Center(
         child: Column(

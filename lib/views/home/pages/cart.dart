@@ -73,7 +73,7 @@ class _ItemState extends State<_Item> {
             ),
             Padding(
               padding: const EdgeInsetsDirectional.only(start: 6.0, top: 6),
-              child: AppImage(image: "delete.svg", width: 19.w, height: 19.h),
+              child: AppImage(image: "delete.icons", width: 19.w, height: 19.h),
             ),
           ],
         ),
@@ -121,7 +121,7 @@ class _ItemState extends State<_Item> {
                           }
                           setState(() {});
                         },
-                        icon: AppImage(image: "minus.svg", color: Colors.black),
+                        icon: AppImage(image: "minus.icons", color: Colors.black),
                       ),
                       Text(
                         "$count",
@@ -136,7 +136,7 @@ class _ItemState extends State<_Item> {
                           count++;
                           setState(() {});
                         },
-                        icon: AppImage(image: "plus.svg"),
+                        icon: AppImage(image: "plus.icons"),
                       ),
                     ],
                   ),
