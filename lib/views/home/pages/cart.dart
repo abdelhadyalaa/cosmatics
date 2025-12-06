@@ -8,10 +8,9 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("My Cart"), centerTitle: true),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(13),
-
+      appBar: AppBar(title: Text("My Cart"), ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -27,15 +26,16 @@ class CartPage extends StatelessWidget {
               ),
             ),
 
-            ListView.separated(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) => _Item(),
-              separatorBuilder: (context, index) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 30.0),
-                child: Divider(),
+            Expanded(
+              child: ListView.separated(
+
+                itemBuilder: (context, index) => _Item(),
+                separatorBuilder: (context, index) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 30.0),
+                  child: Divider(),
+                ),
+                itemCount: 10,
               ),
-              itemCount: 10,
             ),
           ],
         ),
@@ -45,7 +45,7 @@ class CartPage extends StatelessWidget {
 }
 
 class _Item extends StatefulWidget {
-  const _Item({super.key});
+  const _Item();
 
   @override
   State<_Item> createState() => _ItemState();
@@ -73,7 +73,7 @@ class _ItemState extends State<_Item> {
             ),
             Padding(
               padding: const EdgeInsetsDirectional.only(start: 6.0, top: 6),
-              child: AppImage(image: "delete.icons", width: 19.w, height: 19.h),
+              child: AppImage(image: "delete.svg", width: 19.w, height: 19.h),
             ),
           ],
         ),
@@ -121,7 +121,7 @@ class _ItemState extends State<_Item> {
                           }
                           setState(() {});
                         },
-                        icon: AppImage(image: "minus.icons", color: Colors.black),
+                        icon: AppImage(image: "minus.svg", color: Colors.black),
                       ),
                       Text(
                         "$count",
@@ -136,7 +136,7 @@ class _ItemState extends State<_Item> {
                           count++;
                           setState(() {});
                         },
-                        icon: AppImage(image: "plus.icons"),
+                        icon: AppImage(image: "plus.svg"),
                       ),
                     ],
                   ),

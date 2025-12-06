@@ -7,6 +7,6 @@ class AppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FilledButton(onPressed: () {}, child: Text(""));
+    return FilledButton(onPressed: () {}, child: Text(text));
   }
 }

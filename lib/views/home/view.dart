@@ -4,7 +4,6 @@ import 'package:cosmetics_app/views/home/pages/categories.dart';
 import 'package:cosmetics_app/views/home/pages/home.dart';
 import 'package:cosmetics_app/views/home/pages/profile.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -15,10 +14,10 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final list = [
-    _Model("home.icons", HomePage()),
-    _Model("categories.icons", CategoriesPage()),
-    _Model("my_cart.icons", CartPage()),
-    _Model("profile.icons", ProfilePage()),
+    _Model("home.svg", HomePage()),
+    _Model("categories.svg", CategoriesPage()),
+    _Model("my_cart.svg", CartPage()),
+    _Model("profile.svg", ProfilePage()),
   ];
 
   int currentIndex = 2;

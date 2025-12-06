@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../onboarding/pageone.dart';
+import 'onboarding/pageone.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Image.asset("assets/images/splash.png", height: 200, width: 200),
             SizedBox.shrink(),
-            Image.asset("assets/images/textImage.png", height: 46, width: 120),
+            Image.asset("assets/images/splash_text.png", height: 46, width: 120),
           ],
         ),
       ),

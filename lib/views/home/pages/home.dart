@@ -1,5 +1,4 @@
 import 'package:cosmetics_app/core/components/app_image.dart';
-import 'package:cosmetics_app/core/components/app_input.dart';
 import 'package:cosmetics_app/core/components/app_search.dart';
 import 'package:flutter/material.dart';
 
@@ -53,12 +52,12 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              AppImage(image: "offer.icons"),
+                              AppImage(image: "offer.svg"),
                             ],
                           ),
                           Row(
                             children: [
-                              AppImage(image: "offer.icons"),
+                              AppImage(image: "offer.svg"),
                               Expanded(
                                 child: Text(
                                   "Hurry up! \nSkin care only !",
@@ -111,7 +110,7 @@ class HomePage extends StatelessWidget {
 }
 
 class _Item extends StatelessWidget {
-  const _Item({super.key});
+  const _Item();
 
   @override
   Widget build(BuildContext context) {

@@ -17,6 +17,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_screenutil: ^5.9.3
   flutter_svg: ^2.2.3
+  lottie: ^3.3.2
 
 dev_dependencies:
   flutter_test:
