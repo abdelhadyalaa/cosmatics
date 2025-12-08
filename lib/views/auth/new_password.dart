@@ -1,3 +1,4 @@
+import 'package:cosmetics_app/views/auth/success_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -14,7 +15,6 @@ class NewPasswordView extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(14.r).copyWith(top: 48.h),
-
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -53,7 +53,10 @@ class NewPasswordView extends StatelessWidget {
                 isPassword: true,
                 bottomSpace: 70,
               ),
-              AppButton(text: "Confirm"),
+              AppButton(text: "Confirm",onPressed: () {
+                showDialog(context: context, builder: (context) => SuccessDialog(),);
+
+              },),
               // Align(
               //   alignment: AlignmentDirectional.center,
               //     child: AppLoginOrRegister()),

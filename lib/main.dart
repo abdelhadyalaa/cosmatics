@@ -5,6 +5,7 @@ import 'package:cosmetics_app/views/auth/new_password.dart';
 import 'package:cosmetics_app/views/auth/otp.dart';
 import 'package:cosmetics_app/views/home/pages/cart.dart';
 import 'package:cosmetics_app/views/home/view.dart';
+import 'package:cosmetics_app/views/splah.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -81,7 +82,8 @@ class MyApp extends StatelessWidget {
         ),
         home: PageView(
           children: [
-            NewPasswordView(),
+            SplashScreen(),
+            // NewPasswordView(),
             // ForgetPasswordView(),
             // HomeView(),
             // CartPage(),

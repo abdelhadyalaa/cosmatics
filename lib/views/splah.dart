@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cosmetics_app/core/components/app_image.dart';
 import 'package:flutter/material.dart';
 
 import 'onboarding/pageone.dart';
@@ -17,11 +18,11 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
     Timer(Duration(seconds: 5), () {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => PageOne()),
-        (route) => false,
-      );
+      // Navigator.pushAndRemoveUntil(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => PageOne()),
+      //   (route) => false,
+      // );
     });
   }
 
@@ -32,9 +33,14 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset("assets/images/splash.png", height: 200, width: 200),
+            AppImage(
+              image: "splash.png",
+              height: 200,
+              width: 200,
+              bottomSpace: 16,
+            ),
             SizedBox.shrink(),
-            Image.asset("assets/images/splash_text.png", height: 46, width: 120),
+            AppImage(image: "splash_text.png", height: 46, width: 120),
           ],
         ),
       ),

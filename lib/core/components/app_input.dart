@@ -47,8 +47,8 @@ class _AppInputState extends State<AppInput> {
                         },
                         icon: AppImage(
                           image: isHidden
-                              ? "visibility.svg"
-                              : "visibility_off.svg",
+                              ? "visibility_off.svg"
+                              : "visibility.svg",
                         ),
                       )
                     : widget.suffixIcon != null
