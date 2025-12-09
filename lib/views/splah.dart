@@ -1,10 +1,10 @@
-import 'dart:async';
+import 'package:animate_do/animate_do.dart';
 
-import 'package:cosmetics_app/core/logic/helper_method.dart';
-import 'package:cosmetics_app/views/onboarding/view.dart';
 import 'package:flutter/material.dart';
 
+import '../core/logic/helper_method.dart';
 import '../core/ui/app_image.dart';
+import 'onboarding/view.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -25,18 +25,21 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AppImage(
-              image: "splash.png",
-              height: 200,
-              width: 200,
-              bottomSpace: 16,
-            ),
-            SizedBox.shrink(),
-            AppImage(image: "splash_text.png", height: 46, width: 120),
-          ],
+        child: Bounce(
+          duration: Duration(seconds: 5),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AppImage(
+                image: "splash.png",
+                height: 200,
+                width: 200,
+                bottomSpace: 16,
+              ),
+              SizedBox.shrink(),
+              AppImage(image: "splash_text.png", height: 46, width: 120),
+            ],
+          ),
         ),
       ),
     );

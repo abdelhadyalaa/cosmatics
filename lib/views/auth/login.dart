@@ -1,4 +1,5 @@
-
+import 'package:cosmetics_app/core/logic/helper_method.dart';
+import 'package:cosmetics_app/views/auth/forget_password.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -53,7 +54,9 @@ class LoginView extends StatelessWidget {
               Align(
                 alignment: AlignmentDirectional.centerEnd,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    goTo(page: ForgetPasswordView());
+                  },
                   child: Text("Forget Password?"),
                 ),
               ),
@@ -66,7 +69,9 @@ class LoginView extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: AppLoginOrRegister(),
+      bottomNavigationBar: AppLoginOrRegister(
+
+      ),
     );
   }
 }

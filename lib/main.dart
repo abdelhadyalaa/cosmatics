@@ -88,13 +88,13 @@ class MyApp extends StatelessWidget {
         ),
         home: PageView(
           children: [
+            // OtpView(),
             // PageOne(),
             SplashScreen(),
             // NewPasswordView(),
             // ForgetPasswordView(),
             // HomeView(),
             // CartPage(),
-            // OtpView(),
             // CreateAccountView(),
             // LoginView()
           ],

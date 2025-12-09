@@ -1,4 +1,6 @@
-
+import 'package:cosmetics_app/core/logic/helper_method.dart';
+import 'package:cosmetics_app/core/ui/app_verify_code.dart';
+import 'package:cosmetics_app/views/auth/otp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -13,8 +15,7 @@ class CreateAccountView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
-      Padding(
+      body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 14.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -43,7 +44,10 @@ class CreateAccountView extends StatelessWidget {
             AppInput(isPassword: true, label: "Create your password"),
             AppInput(isPassword: true, label: "Confirm password"),
             SizedBox(height: 90.h),
-            AppButton(text: "Next"),
+            AppButton(
+              text: "Next",
+              onPressed: () => goTo(page: OtpView(isFromCreateAccount: true,)),
+            ),
           ],
         ),
       ),

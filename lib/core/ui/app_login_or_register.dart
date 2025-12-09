@@ -1,3 +1,6 @@
+import 'package:cosmetics_app/core/logic/helper_method.dart';
+import 'package:cosmetics_app/views/auth/create_account.dart';
+import 'package:cosmetics_app/views/auth/login.dart';
 import 'package:flutter/material.dart';
 
 class AppLoginOrRegister extends StatelessWidget {
@@ -23,7 +26,9 @@ class AppLoginOrRegister extends StatelessWidget {
                   visualDensity: VisualDensity.compact,
                   padding: EdgeInsets.symmetric(horizontal: 2),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  goTo(page: CreateAccountView());
+                },
                 child: Text(isLogin ? "Register" : "Login"),
               ),
             ),
