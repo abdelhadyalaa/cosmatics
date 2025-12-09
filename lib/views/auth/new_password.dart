@@ -2,10 +2,12 @@ import 'package:cosmetics_app/views/auth/success_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../core/components/app_button.dart';
-import '../../core/components/app_image.dart';
-import '../../core/components/app_input.dart';
 
+
+
+import '../../core/ui/app_button.dart';
+import '../../core/ui/app_image.dart';
+import '../../core/ui/app_input.dart';
 class NewPasswordView extends StatelessWidget {
   const NewPasswordView({super.key});
 

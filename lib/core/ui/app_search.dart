@@ -1,5 +1,6 @@
-import 'package:cosmetics_app/core/components/app_input.dart';
 import 'package:flutter/material.dart';
+
+import 'app_input.dart';
 
 class AppSearch extends StatelessWidget {
   const AppSearch({super.key});

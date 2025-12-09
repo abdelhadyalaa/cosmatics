@@ -1,9 +1,10 @@
 import 'dart:async';
 
-import 'package:cosmetics_app/core/components/app_image.dart';
+import 'package:cosmetics_app/core/logic/helper_method.dart';
+import 'package:cosmetics_app/views/onboarding/view.dart';
 import 'package:flutter/material.dart';
 
-import 'onboarding/pageone.dart';
+import '../core/ui/app_image.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -17,13 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(Duration(seconds: 5), () {
-      // Navigator.pushAndRemoveUntil(
-      //   context,
-      //   MaterialPageRoute(builder: (context) => PageOne()),
-      //   (route) => false,
-      // );
-    });
+    goTo(delaySeconds: 5, page: PageOne());
   }
 
   @override

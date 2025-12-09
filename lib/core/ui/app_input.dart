@@ -1,7 +1,8 @@
-import 'package:cosmetics_app/core/components/app_country_code.dart';
-import 'package:cosmetics_app/core/components/app_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'app_country_code.dart';
+import 'app_image.dart';
 
 class AppInput extends StatefulWidget {
   final String? suffixIcon;

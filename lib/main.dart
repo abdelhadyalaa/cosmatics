@@ -5,9 +5,12 @@ import 'package:cosmetics_app/views/auth/new_password.dart';
 import 'package:cosmetics_app/views/auth/otp.dart';
 import 'package:cosmetics_app/views/home/pages/cart.dart';
 import 'package:cosmetics_app/views/home/view.dart';
+import 'package:cosmetics_app/views/onboarding/view.dart';
 import 'package:cosmetics_app/views/splah.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'core/logic/helper_method.dart';
 
 void main() {
   runApp(const MyApp());
@@ -39,6 +42,9 @@ class MyApp extends StatelessWidget {
           fontFamily: "Montserrat",
 
           cardColor: Color(0xffD9D9D9),
+          floatingActionButtonTheme: FloatingActionButtonThemeData(
+            backgroundColor: Color(0xff434C6D)
+          ),
           appBarTheme: AppBarTheme(
             surfaceTintColor: Colors.transparent,
 
@@ -82,6 +88,7 @@ class MyApp extends StatelessWidget {
         ),
         home: PageView(
           children: [
+            // PageOne(),
             SplashScreen(),
             // NewPasswordView(),
             // ForgetPasswordView(),
@@ -92,6 +99,7 @@ class MyApp extends StatelessWidget {
             // LoginView()
           ],
         ),
+        navigatorKey: navKey,
       ),
     );
   }

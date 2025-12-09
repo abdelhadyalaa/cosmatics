@@ -1,6 +1,7 @@
-import 'package:cosmetics_app/core/components/app_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../core/ui/app_image.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
