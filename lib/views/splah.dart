@@ -2,9 +2,9 @@ import 'package:animate_do/animate_do.dart';
 
 import 'package:flutter/material.dart';
 
-import '../core/logic/helper_method.dart';
+import '../core/logic/helper_methods.dart';
 import '../core/ui/app_image.dart';
-import 'onboarding/view.dart';
+import 'on_boarding.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

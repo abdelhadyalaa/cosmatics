@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 class AppImage extends StatelessWidget {
   final String image;
   final double? height, width, bottomSpace;
+  final bool isCircle;
   final Color? color;
   final BoxFit fit;
 
@@ -13,50 +14,60 @@ class AppImage extends StatelessWidget {
     required this.image,
     this.height,
     this.width,
+
     this.color,
     this.fit = BoxFit.scaleDown,
     this.bottomSpace,
+    this.isCircle = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    final myFit = isCircle ? BoxFit.cover : fit;
+    if (image.isEmpty)return SizedBox.shrink();
     return Padding(
       padding: bottomSpace != null
           ? EdgeInsets.only(bottom: bottomSpace!)
           : EdgeInsets.zero,
       child: Builder(
         builder: (context) {
+          Widget child;
+
           if (image.toLowerCase().endsWith("svg")) {
-            return SvgPicture.asset(
+            child = SvgPicture.asset(
               "assets/icons/$image",
               color: color,
               height: height,
               width: width,
-              fit: fit,
+              fit: myFit,
             );
           } else if (image.startsWith("http")) {
-            return Image.network(
+            child = Image.network(
               image,
               height: height,
               width: width,
               color: color,
-              fit: fit,
+              fit: myFit,
             );
           } else if (image.endsWith("json")) {
-            return Lottie.asset(
+            child = Lottie.asset(
               "assets/lotties/$image",
               height: height,
               width: width,
-              fit: fit,
+              fit: myFit,
+            );
+          } else {
+            child = Image.asset(
+              "assets/images/$image",
+              height: height,
+              width: width,
+              color: color,
+              fit: myFit,
             );
           }
-          return Image.asset(
-            "assets/images/$image",
-            height: height,
-            width: width,
-            color: color,
-            fit: fit,
-          );
+
+          if (isCircle) return ClipOval(child: child);
+          return child;
         },
       ),
     );

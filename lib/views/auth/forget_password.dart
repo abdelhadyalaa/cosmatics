@@ -1,4 +1,4 @@
-import 'package:cosmetics_app/core/logic/helper_method.dart';
+import 'package:cosmetics_app/core/logic/helper_methods.dart';
 import 'package:cosmetics_app/core/ui/app_back.dart';
 import 'package:cosmetics_app/views/auth/otp.dart';
 import 'package:flutter/material.dart';

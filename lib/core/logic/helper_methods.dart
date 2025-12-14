@@ -3,12 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 final navKey = GlobalKey<NavigatorState>();
+
 void goTo({required Widget page, bool canPop = true, int? delaySeconds}) {
   action() {
     Navigator.pushAndRemoveUntil(
       navKey.currentContext!,
       MaterialPageRoute(builder: (_) => page),
-          (_) => canPop,
+      (_) => canPop,
     );
   }
 
@@ -18,5 +19,13 @@ void goTo({required Widget page, bool canPop = true, int? delaySeconds}) {
     });
   } else {
     action();
+  }
+}
+
+void showMsg(String msg) {
+  if (msg.isNotEmpty) {
+    ScaffoldMessenger.of(
+      navKey.currentContext!,
+    ).showSnackBar(SnackBar(content: Text(msg)));
   }
 }

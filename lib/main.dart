@@ -3,16 +3,22 @@ import 'package:cosmetics_app/views/auth/forget_password.dart';
 import 'package:cosmetics_app/views/auth/login.dart';
 import 'package:cosmetics_app/views/auth/new_password.dart';
 import 'package:cosmetics_app/views/auth/otp.dart';
+import 'package:cosmetics_app/views/check_out.dart';
 import 'package:cosmetics_app/views/home/pages/cart.dart';
 import 'package:cosmetics_app/views/home/view.dart';
-import 'package:cosmetics_app/views/onboarding/view.dart';
+import 'package:cosmetics_app/views/on_boarding.dart';
+import 'package:cosmetics_app/views/pin_location.dart';
 import 'package:cosmetics_app/views/splah.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'core/logic/helper_method.dart';
+import 'core/logic/helper_methods.dart';
+late SharedPreferences prefs;
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const MyApp());
 }
 
@@ -43,9 +49,10 @@ class MyApp extends StatelessWidget {
 
           cardColor: Color(0xffD9D9D9),
           floatingActionButtonTheme: FloatingActionButtonThemeData(
-            backgroundColor: Color(0xff434C6D)
+            backgroundColor: Color(0xff434C6D),
           ),
           appBarTheme: AppBarTheme(
+            centerTitle: true,
             surfaceTintColor: Colors.transparent,
 
             titleTextStyle: TextStyle(
@@ -88,6 +95,9 @@ class MyApp extends StatelessWidget {
         ),
         home: PageView(
           children: [
+            // PinLocationView(),
+
+            // CheckOutView(),
             // OtpView(),
             // PageOne(),
             SplashScreen(),

@@ -1,9 +1,8 @@
 import 'package:cosmetics_app/views/home/pages/cart.dart';
 import 'package:cosmetics_app/views/home/pages/categories.dart';
 import 'package:cosmetics_app/views/home/pages/home.dart';
-import 'package:cosmetics_app/views/home/pages/profile.dart';
+import 'package:cosmetics_app/views/home/pages/profile/view.dart';
 import 'package:flutter/material.dart';
-
 import '../../core/ui/app_image.dart';
 
 class HomeView extends StatefulWidget {
@@ -21,7 +20,7 @@ class _HomeViewState extends State<HomeView> {
     _Model("profile.svg", ProfilePage()),
   ];
 
-  int currentIndex = 0;
+  int currentIndex = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -71,12 +70,7 @@ class _HomeViewState extends State<HomeView> {
                     ? Theme.of(context).primaryColor
                     : null,
               ),
-              // icon: SvgPicture.asset(
-              //   "assets/images/${list[index].icon}",
-              //   color: currentIndex == index
-              //       ? Theme.of(context).primaryColor
-              //       : null,
-              // ),
+
               label: "",
             ),
           ),
