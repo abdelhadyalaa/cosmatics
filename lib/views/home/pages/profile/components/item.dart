@@ -4,7 +4,7 @@ class _Item extends StatelessWidget {
   final VoidCallback? onTap;
   final Widget? page;
 
-  const _Item({super.key, required this.title, this.onTap, this.page});
+  const _Item({required this.title, this.onTap});
 
   @override
   Widget build(BuildContext context) {

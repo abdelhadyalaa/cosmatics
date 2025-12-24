@@ -1,5 +1,4 @@
 import 'package:cosmetics_app/core/logic/helper_methods.dart';
-import 'package:cosmetics_app/core/ui/app_verify_code.dart';
 import 'package:cosmetics_app/views/auth/otp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

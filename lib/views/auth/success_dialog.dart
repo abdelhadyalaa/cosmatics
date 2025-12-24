@@ -6,8 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../core/ui/app_button.dart';
 import '../../core/ui/app_image.dart';
-import '../../core/ui/app_input.dart';
-import '../../core/ui/app_login_or_register.dart';
 
 class SuccessDialog extends StatelessWidget {
   final bool isFromCreateAccount;

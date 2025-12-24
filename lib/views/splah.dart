@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../core/logic/helper_methods.dart';
 import '../core/ui/app_image.dart';
-import '../core/ui/app_login_or_register.dart';
 import 'on_boarding.dart';
 
 class SplashScreen extends StatefulWidget {

@@ -1,4 +1,3 @@
-import 'package:cosmetics_app/core/logic/helper_methods.dart';
 import 'package:cosmetics_app/core/ui/app_back.dart';
 import 'package:cosmetics_app/core/ui/app_verify_code.dart';
 import 'package:cosmetics_app/views/auth/success_dialog.dart';
@@ -7,10 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../core/ui/app_button.dart';
 import '../../core/ui/app_image.dart';
-import '../../core/ui/app_input.dart';
-import '../../core/ui/app_login_or_register.dart';
 import '../../core/ui/app_resend_otp.dart';
-import 'new_password.dart';
 
 class OtpView extends StatelessWidget {
   var formKey = GlobalKey<FormState>();

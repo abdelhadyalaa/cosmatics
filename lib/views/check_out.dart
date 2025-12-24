@@ -6,7 +6,6 @@ import 'package:cosmetics_app/views/pin_location.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:maps_launcher/maps_launcher.dart';
 
 class CheckOutView extends StatelessWidget {
   const CheckOutView({super.key});
@@ -148,7 +147,6 @@ class _Title extends StatelessWidget {
   final Widget? leading, trailing;
 
   const _Title({
-    super.key,
     required this.title,
     this.subTitle,
     this.leadingImage,
@@ -198,7 +196,6 @@ class _TextDetails extends StatelessWidget {
   final FontWeight valueFontWeight;
 
   const _TextDetails({
-    super.key,
     required this.title,
     required this.value,
     this.valueFontWeight = FontWeight.w500,
