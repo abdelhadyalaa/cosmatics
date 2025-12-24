@@ -14,7 +14,6 @@ class CheckOutView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final position = LatLng(31.0414531, 31.34164);
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -50,10 +49,6 @@ class CheckOutView extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () {
                         goTo(page: PinLocationView());
-                        // MapsLauncher.launchCoordinates(
-                        //   position.latitude,
-                        //   position.longitude,
-                        // );
                       },
                       child: AbsorbPointer(
                         child: GoogleMap(

@@ -9,6 +9,14 @@ class AppVerifyCode extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PinCodeTextField(
+
+      keyboardType: TextInputType.number,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please Put Your Code';
+        }
+        return null;
+      },
       appContext: context,
       cursorHeight: 16.h,
       cursorWidth: 5.w,

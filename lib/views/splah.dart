@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../core/logic/helper_methods.dart';
 import '../core/ui/app_image.dart';
+import '../core/ui/app_login_or_register.dart';
 import 'on_boarding.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -18,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    goTo(delaySeconds: 5, page: PageOne());
+    goTo(delaySeconds: 5, page: OnBoarding());
   }
 
   @override

@@ -7,6 +7,6 @@ class AppSearch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppInput(hint: "Search", suffixIcon: "search.svg");
+    return AppInput(label: "Search", suffixIcon: "search.svg", isSearch: true);
   }
 }

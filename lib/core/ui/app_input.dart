@@ -7,7 +7,8 @@ import 'app_image.dart';
 class AppInput extends StatefulWidget {
   final String? suffixIcon;
   final String hint, label;
-  final bool withCountryCode, isPassword;
+  final TextInputType keyboardType;
+  final bool withCountryCode, isPassword, isSearch;
   final double? bottomSpace;
 
   const AppInput({
@@ -18,6 +19,8 @@ class AppInput extends StatefulWidget {
     this.withCountryCode = false,
     this.isPassword = false,
     this.bottomSpace,
+    this.keyboardType = TextInputType.text,
+    this.isSearch = false,
   });
 
   @override
@@ -29,6 +32,8 @@ class _AppInputState extends State<AppInput> {
 
   @override
   Widget build(BuildContext context) {
+    final double radiusValue = widget.isSearch ? 50.r : 8.r;
+    final borderRadius = BorderRadius.circular(radiusValue);
     return Padding(
       padding: EdgeInsets.only(bottom: widget.bottomSpace ?? 16.h),
       child: Row(
@@ -36,8 +41,31 @@ class _AppInputState extends State<AppInput> {
           if (widget.withCountryCode) AppCountryCode(),
           Expanded(
             child: TextFormField(
+              keyboardType: widget.keyboardType,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return widget.isPassword
+                      ? "Please Put Your Password"
+                      : 'Please Put Your Data';
+                }
+                return null;
+              },
               obscureText: widget.isPassword && isHidden,
+
               decoration: InputDecoration(
+                border: OutlineInputBorder(borderRadius: borderRadius),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: borderRadius,
+                  // borderSide: BorderSide(color: Colors.grey.shade300),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: borderRadius,
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red, width: 2.0),
+                ),
+
                 labelText: widget.label,
                 hintText: widget.hint,
                 suffixIcon: widget.isPassword

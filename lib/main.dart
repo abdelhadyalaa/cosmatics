@@ -14,6 +14,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/logic/helper_methods.dart';
+
 late SharedPreferences prefs;
 
 void main() async {
@@ -34,6 +35,14 @@ class MyApp extends StatelessWidget {
 
       splitScreenMode: true,
       builder: (context, child) => MaterialApp(
+        builder: (context, child) {
+          return GestureDetector(
+            onTap: () {
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
+            child: child,
+          );
+        },
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -96,14 +105,13 @@ class MyApp extends StatelessWidget {
         home: PageView(
           children: [
             // PinLocationView(),
-
             // CheckOutView(),
             // OtpView(),
             // PageOne(),
-            SplashScreen(),
+            // SplashScreen(),
             // NewPasswordView(),
             // ForgetPasswordView(),
-            // HomeView(),
+            HomeView(),
             // CartPage(),
             // CreateAccountView(),
             // LoginView()

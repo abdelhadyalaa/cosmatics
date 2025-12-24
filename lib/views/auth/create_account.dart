@@ -10,45 +10,71 @@ import '../../core/ui/app_input.dart';
 import '../../core/ui/app_login_or_register.dart';
 
 class CreateAccountView extends StatelessWidget {
-  const CreateAccountView({super.key});
+  var formKey = GlobalKey<FormState>();
+
+  CreateAccountView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 14.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 40.0),
-                child: AppImage(image: "splash.png", height: 62.h, width: 67.w),
-              ),
-            ),
-            SizedBox(height: 24.h),
-            Center(
-              child: Text(
-                "Create Account",
-                style: TextStyle(
-                  fontSize: 24.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xff434C6D),
-                ),
-              ),
-            ),
-            SizedBox(height: 50.h),
+      body: SafeArea(
+        child: Form(
+          key: formKey,
+          child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 14.0, vertical: 10),
 
-            AppInput(label: "Your Name"),
-            AppInput(withCountryCode: true, label: "Phone Number"),
-            AppInput(isPassword: true, label: "Create your password"),
-            AppInput(isPassword: true, label: "Confirm password"),
-            SizedBox(height: 90.h),
-            AppButton(
-              text: "Next",
-              onPressed: () => goTo(page: OtpView(isFromCreateAccount: true,)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 40.0),
+                    child: AppImage(
+                      image: "splash.png",
+                      height: 70.h,
+                      width: 70.w,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 24.h),
+                Center(
+                  child: Text(
+                    "Create Account",
+                    style: TextStyle(
+                      fontSize: 24.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xff434C6D),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 50.h),
+
+                AppInput(label: "Your Name"),
+                AppInput(withCountryCode: true, label: "Phone Number",keyboardType: TextInputType.number,),
+                AppInput(isPassword: true, label: "Create your password"),
+                AppInput(isPassword: true, label: "Confirm password"),
+                SizedBox(height: 90.h),
+                AppButton(
+                  text: "Next",
+                  onPressed: () {
+                    if (formKey.currentState?.validate() ?? false) {
+                      goTo(
+                        page: OtpView(isFromCreateAccount: true),
+                        canPop: true,
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Sorry You Should Put Your Data ...."),
+                          backgroundColor: Colors.red.shade800,
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
       bottomNavigationBar: AppLoginOrRegister(isLogin: false),

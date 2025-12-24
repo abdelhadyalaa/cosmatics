@@ -1,7 +1,9 @@
+import 'package:cosmetics_app/core/logic/helper_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/ui/app_image.dart';
+import '../../check_out.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
@@ -9,7 +11,20 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("My Cart"), ),
+      appBar: AppBar(
+        title: Text("My Cart"),
+        actions: [
+          Padding(
+            padding: EdgeInsetsDirectional.only(end: 24.0),
+            child: GestureDetector(
+              onTap: () {
+                goTo(page: CheckOutView());
+              },
+              child: AppImage(image: "shopping_checkout.svg"),
+            ),
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: Column(
@@ -29,7 +44,6 @@ class CartPage extends StatelessWidget {
 
             Expanded(
               child: ListView.separated(
-
                 itemBuilder: (context, index) => _Item(),
                 separatorBuilder: (context, index) => Padding(
                   padding: const EdgeInsets.symmetric(vertical: 30.0),
@@ -117,7 +131,7 @@ class _ItemState extends State<_Item> {
                     children: [
                       IconButton(
                         onPressed: () {
-                          if (count > 1 ) {
+                          if (count > 1) {
                             count--;
                           }
                           setState(() {});

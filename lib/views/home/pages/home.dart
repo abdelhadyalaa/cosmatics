@@ -8,26 +8,31 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final list = [
+      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1000&auto=format&fit=crop", // Makeup Brushes
+      "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=1000&auto=format&fit=crop", // Lipstick and Gloss
+      "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?q=80&w=1000&auto=format&fit=crop", // Serum Bottle
+      "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?q=80&w=1000&auto=format&fit=crop", // Face Cream
+      "https://images.unsplash.com/photo-1612817288484-6f916006741a?q=80&w=1000&auto=format&fit=crop", // Skin Care Routine
+      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=1000&auto=format&fit=crop", // Foundation/Cream
+    ];
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(13),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children:[
-              AppSearch(
-
-              ),
+            children: [
+              AppSearch(),
               SizedBox(height: 13),
               ClipRRect(
-
                 borderRadius: BorderRadius.circular(20),
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
                     AppImage(
                       image:
-                          "https://img.buzzfeed.com/buzzfeed-static/static/2019-08/16/2/asset/2f2486d35771/sub-buzz-2247-1565922471-1.jpg",
+                      "https://img.buzzfeed.com/buzzfeed-static/static/2019-08/16/2/asset/2f2486d35771/sub-buzz-2247-1565922471-1.jpg",
                       height: 320,
                       width: double.infinity,
                       fit: BoxFit.cover,
@@ -99,8 +104,8 @@ class HomePage extends StatelessWidget {
                   crossAxisSpacing: 12,
                   childAspectRatio: 176 / 237,
                 ),
-                itemBuilder: (context, index) => _Item(),
-                itemCount: 10,
+                itemBuilder: (context, index) => _Item(imageUrl: list[index],),
+                itemCount: list.length,
               ),
             ],
           ),
@@ -111,7 +116,8 @@ class HomePage extends StatelessWidget {
 }
 
 class _Item extends StatelessWidget {
-  const _Item();
+  final String imageUrl;
+  const _Item({required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +126,9 @@ class _Item extends StatelessWidget {
       padding: EdgeInsets.all(8),
 
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
+        color: Theme
+            .of(context)
+            .cardColor,
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
@@ -141,8 +149,7 @@ class _Item extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: AppImage(
-                image:
-                    "https://i.pinimg.com/originals/11/f5/22/11f522c7f8ead5519a4b102723f0a89c.jpg",
+                image:imageUrl,
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),

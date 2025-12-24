@@ -6,14 +6,14 @@ import '../core/ui/app_button.dart';
 import '../core/ui/app_image.dart';
 import 'auth/login.dart';
 
-class PageOne extends StatefulWidget {
-  const PageOne({super.key});
+class OnBoarding extends StatefulWidget {
+  const OnBoarding({super.key});
 
   @override
-  State<PageOne> createState() => _PageOneState();
+  State<OnBoarding> createState() => _OnBoardingState();
 }
 
-class _PageOneState extends State<PageOne> {
+class _OnBoardingState extends State<OnBoarding> {
   final list = [
     _Model(
       image: "on_boarding1.png",
@@ -53,7 +53,7 @@ class _PageOneState extends State<PageOne> {
                 alignment: AlignmentDirectional.centerEnd,
                 child: TextButton(
                   onPressed: () {
-                    goToLogin();
+                    goTo(page: LoginView());
                   },
                   child: Text(
                     "Skip",
@@ -96,7 +96,9 @@ class _PageOneState extends State<PageOne> {
                 ? Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 60.0),
                     child: AppButton(
-                      onPressed: () => goToLogin(),
+                      onPressed: () {
+                        goTo(page: LoginView());
+                      },
                       color: Color(0xff434C6D),
                       text: "let’s start!",
                     ),
