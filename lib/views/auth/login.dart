@@ -2,17 +2,59 @@ import 'package:cosmetics_app/core/logic/helper_methods.dart';
 import 'package:cosmetics_app/views/auth/forget_password.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../core/ui/app_button.dart';
 import '../../core/ui/app_image.dart';
+import 'package:dio/dio.dart';
 import '../../core/ui/app_input.dart';
 import '../../core/ui/app_login_or_register.dart';
 import '../home/view.dart';
 
-class LoginView extends StatelessWidget {
+class LoginView extends StatefulWidget {
+  LoginView({super.key});
+
+  @override
+  State<LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
   var formKey = GlobalKey<FormState>();
 
-  LoginView({super.key});
+  final phoneController = TextEditingController();
+
+  final passwordController = TextEditingController();
+
+  bool isLoading = false;
+
+  void login() async {
+    if (formKey.currentState?.validate() ?? false) {
+      setState(() => isLoading = true);
+
+      try {
+        final response =
+            await Dio(
+              BaseOptions(baseUrl: "http://www.cosmatics.growfet.com/"),
+            ).post(
+              "api/Auth/login",
+              data: {
+                "phoneNumber": phoneController.text,
+                "password": passwordController.text,
+              },
+            );
+
+        if (response.statusCode == 200) {
+          goTo(page: HomeView(), canPop: false);
+        }
+      } on DioException catch (e) {
+        String errorMessage =
+            e.response?.data["message"] ?? "حدث خطأ ما، حاول لاحقاً";
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(errorMessage), backgroundColor: Colors.red),
+        );
+      } finally {
+        if (mounted) setState(() => isLoading = false);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +93,13 @@ class LoginView extends StatelessWidget {
                 ),
                 SizedBox(height: 24.h),
                 AppInput(
+                  controller: phoneController,
                   label: "Phone Number",
                   withCountryCode: true,
                   keyboardType: TextInputType.number,
                 ),
                 AppInput(
+                  controller: passwordController,
                   label: "Your Password",
                   isPassword: true,
                   bottomSpace: 0,
@@ -64,30 +108,16 @@ class LoginView extends StatelessWidget {
                   alignment: AlignmentDirectional.centerEnd,
                   child: TextButton(
                     onPressed: () {
-                      goTo(page: ForgetPasswordView(),canPop: true);
+                      goTo(page: ForgetPasswordView(), canPop: true);
                     },
                     child: Text("Forget Password?"),
                   ),
                 ),
                 SizedBox(height: 44.h),
                 AppButton(
-                  text: "Login",
-                  onPressed: () {
-                    if (formKey.currentState?.validate() ?? false) {
-                      goTo(page: HomeView(), canPop: false);
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("Sorry You Should Put Your Data ...."),
-                          backgroundColor: Colors.red.shade800,
-                        ),
-                      );
-                    }
-                  },
+                  text: isLoading ? "Wait..." : "Login",
+                  onPressed: isLoading ? null : login,
                 ),
-                // Align(
-                //   alignment: AlignmentDirectional.center,
-                //     child: AppLoginOrRegister()),
               ],
             ),
           ),

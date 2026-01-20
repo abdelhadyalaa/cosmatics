@@ -4,11 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class AppVerifyCode extends StatelessWidget {
-  const AppVerifyCode({super.key});
+  final TextEditingController? controller;
+
+  const AppVerifyCode({super.key, this.controller});
 
   @override
   Widget build(BuildContext context) {
     return PinCodeTextField(
+      controller: controller,
 
       keyboardType: TextInputType.number,
       validator: (value) {

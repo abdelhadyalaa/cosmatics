@@ -45,75 +45,77 @@ class _OnBoardingState extends State<OnBoarding> {
 
     return SafeArea(
       child: Scaffold(
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            if (!isLast)
-              Align(
-                alignment: AlignmentDirectional.centerEnd,
-                child: TextButton(
-                  onPressed: () {
-                    goTo(page: LoginView());
-                  },
-                  child: Text(
-                    "Skip",
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xff434C6D),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (!isLast)
+                Align(
+                  alignment: AlignmentDirectional.centerEnd,
+                  child: TextButton(
+                    onPressed: () {
+                      goTo(page: LoginView());
+                    },
+                    child: Text(
+                      "Skip",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xff434C6D),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            SizedBox(height: 100.h),
+              SizedBox(height: 100.h),
 
-            AppImage(image: currentModel.image, width: 283.w, height: 259.h),
-            SizedBox(height: 27.h),
-            Center(
-              child: Text(
-                currentModel.title,
-                style: TextStyle(
-                  color: Color(0xff434C6D),
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            SizedBox(height: 10.h),
-            Padding(
-              padding: const EdgeInsets.only(right: 40, left: 40),
-              child: Text(
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color(0xff434C6D),
-                  fontWeight: FontWeight.w400,
-                  fontSize: 16.sp,
-                ),
-                currentModel.desc,
-              ),
-            ),
-            SizedBox(height: 30),
-            isLast
-                ? Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 60.0),
-                    child: AppButton(
-                      onPressed: () {
-                        goTo(page: LoginView());
-                      },
-                      color: Color(0xff434C6D),
-                      text: "let’s start!",
-                    ),
-                  )
-                : Center(
-                    child: FloatingActionButton(
-                      child: AppImage(image: "forward_stroke.svg"),
-
-                      onPressed: () {
-                        currentIndex++;
-                        setState(() {});
-                      },
-                    ),
+              AppImage(image: currentModel.image, width: 283.w, height: 259.h),
+              SizedBox(height: 27.h),
+              Center(
+                child: Text(
+                  currentModel.title,
+                  style: TextStyle(
+                    color: Color(0xff434C6D),
+                    fontWeight: FontWeight.bold,
                   ),
-          ],
+                ),
+              ),
+              SizedBox(height: 10.h),
+              Padding(
+                padding: const EdgeInsets.only(right: 40, left: 40),
+                child: Text(
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xff434C6D),
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16.sp,
+                  ),
+                  currentModel.desc,
+                ),
+              ),
+              SizedBox(height: 30),
+              isLast
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 60.0),
+                      child: AppButton(
+                        onPressed: () {
+                          goTo(page: LoginView());
+                        },
+                        color: Color(0xff434C6D),
+                        text: "let’s start!",
+                      ),
+                    )
+                  : Center(
+                      child: FloatingActionButton(
+                        child: AppImage(image: "forward_stroke.svg"),
+
+                        onPressed: () {
+                          currentIndex++;
+                          setState(() {});
+                        },
+                      ),
+                    ),
+            ],
+          ),
         ),
       ),
     );

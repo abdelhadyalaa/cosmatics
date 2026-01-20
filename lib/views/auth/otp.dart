@@ -1,18 +1,76 @@
+import 'package:cosmetics_app/core/logic/helper_methods.dart';
 import 'package:cosmetics_app/core/ui/app_back.dart';
 import 'package:cosmetics_app/core/ui/app_verify_code.dart';
 import 'package:cosmetics_app/views/auth/success_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:dio/dio.dart';
 
 import '../../core/ui/app_button.dart';
 import '../../core/ui/app_image.dart';
 import '../../core/ui/app_resend_otp.dart';
+import 'new_password.dart';
 
-class OtpView extends StatelessWidget {
-  var formKey = GlobalKey<FormState>();
-
+class OtpView extends StatefulWidget {
+  final String phone;
   final bool isFromCreateAccount;
-   OtpView({super.key,  this.isFromCreateAccount=false});
+
+  const OtpView({
+    super.key,
+    this.isFromCreateAccount = false,
+    required this.phone,
+  });
+
+  @override
+  State<OtpView> createState() => _OtpViewState();
+}
+
+class _OtpViewState extends State<OtpView> {
+  final formKey = GlobalKey<FormState>();
+  final otpController = TextEditingController();
+  bool isLoading = false;
+
+  void verifyOtp() async {
+    if (formKey.currentState?.validate() ?? false) {
+      setState(() => isLoading = true);
+
+      try {
+        final response = await Dio().post(
+          "http://www.cosmatics.growfet.com/api/Auth/verify-otp",
+          data: {
+            "otpCode": otpController.text,
+            "phoneNumber": widget.phone,
+            "countryCode": "+20",
+          },
+        );
+
+        if (response.statusCode == 200) {
+          if (mounted) {
+            if (widget.isFromCreateAccount) {
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) => SuccessDialog(isFromCreateAccount: true),
+              );
+            } else {
+              goTo(
+                page: CreatePasswordView(phone: widget.phone),
+                canPop: false,
+              );
+            }
+          }
+        }
+      } on DioException catch (e) {
+        String msg =
+            e.response?.data["message"] ?? "Invalid code, please try again";
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(msg), backgroundColor: Colors.red),
+        );
+      } finally {
+        if (mounted) setState(() => isLoading = false);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +83,7 @@ class OtpView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                AppBack(),
+                const AppBack(),
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -43,7 +101,7 @@ class OtpView extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 24.sp,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff434C6D),
+                      color: const Color(0xff434C6D),
                     ),
                   ),
                 ),
@@ -51,27 +109,27 @@ class OtpView extends StatelessWidget {
                 Text.rich(
                   textAlign: TextAlign.center,
                   TextSpan(
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
                       color: Color(0xff3B4569),
                     ),
                     children: [
-                      TextSpan(
+                      const TextSpan(
                         text: "We just sent a 4-digit verification code to\n",
                       ),
                       WidgetSpan(
                         child: Text(
-                          "+20 1016225354\t",
+                          "+20 ${widget.phone}\t", // استخدام الرقم الحقيقي هنا
                           textDirection: TextDirection.ltr,
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
-                            color: Color(0x3B4569BA).withValues(alpha: .99),
+                            color: const Color(0xff3B4569).withOpacity(.99),
                           ),
                         ),
                       ),
-                      TextSpan(
+                      const TextSpan(
                         text: " Enter the code in the box\nbelow to continue.",
                       ),
                     ],
@@ -81,62 +139,32 @@ class OtpView extends StatelessWidget {
                 Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: TextButton(
-                    style: TextButton.styleFrom(
-                      textStyle: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 12,
-                      ),
-                    ),
-                    onPressed: () {},
-                    child: Text("Edit the number"),
+                    onPressed: () {
+                      Navigator.pop(context); // يرجع يعدل الرقم
+                    },
+                    child: const Text("Edit the number"),
                   ),
                 ),
                 SizedBox(height: 20.h),
-                AppVerifyCode(),
+                AppVerifyCode(controller: otpController),
                 SizedBox(height: 42.h),
-
-                AppResendOtp(),
+                const AppResendOtp(),
                 SizedBox(height: 20.h),
-
-
-                AppButton(text: "Done",
-                  onPressed: () {
-
-                      if (formKey.currentState?.validate() ?? false||isFromCreateAccount) {
-                        showDialog(
-                          context: context,
-                          builder: (context) => SuccessDialog(
-                            isFromCreateAccount: isFromCreateAccount,
-                          ),
-                        );
-                        // goTo(page: SuccessDialog(), canPop: false);
-                      }
-                      else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text("Sorry You Should Put Your Data ...."),
-                            backgroundColor: Colors.red.shade800,
-                          ),
-                        );
-                      }
-
-
-                  //   if(isFromCreateAccount ){
-                  //   showDialog(
-                  //     context: context,
-                  //     builder: (context) => SuccessDialog(
-                  //       isFromCreateAccount: isFromCreateAccount,
-                  //     ),
-                  //   );
-                  // }else {
-                  //   goTo(page:CreatePasswordView());
-                  // }
-                  },),
+                AppButton(
+                  text: isLoading ? "Verifying..." : "Done",
+                  onPressed: isLoading ? null : verifyOtp,
+                ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    otpController.dispose();
+    super.dispose();
   }
 }

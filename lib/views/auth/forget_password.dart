@@ -3,15 +3,55 @@ import 'package:cosmetics_app/core/ui/app_back.dart';
 import 'package:cosmetics_app/views/auth/otp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:dio/dio.dart'; // تأكد من استيراد dio
 
 import '../../core/ui/app_button.dart';
 import '../../core/ui/app_image.dart';
 import '../../core/ui/app_input.dart';
 
-class ForgetPasswordView extends StatelessWidget {
-  var formKey = GlobalKey<FormState>();
+class ForgetPasswordView extends StatefulWidget {
+  const ForgetPasswordView({super.key});
 
-  ForgetPasswordView({super.key});
+  @override
+  State<ForgetPasswordView> createState() => _ForgetPasswordViewState();
+}
+
+class _ForgetPasswordViewState extends State<ForgetPasswordView> {
+  final formKey = GlobalKey<FormState>();
+  final phoneController = TextEditingController(); // لإمساك رقم الهاتف
+  bool isLoading = false;
+
+  void sendCode() async {
+    if (formKey.currentState?.validate() ?? false) {
+      setState(() => isLoading = true);
+
+      try {
+        final response = await Dio().post(
+          "http://www.cosmatics.growfet.com/api/Auth/forgot-password",
+          data: {"countryCode": "+20", "phoneNumber": phoneController.text},
+        );
+
+        if (response.statusCode == 200) {
+          if (mounted) {
+            goTo(
+              page: OtpView(
+                phone: phoneController.text,
+                isFromCreateAccount: false,
+              ),
+              canPop: true,
+            );
+          }
+        }
+      } on DioException catch (e) {
+        String msg = e.response?.data["message"] ?? "Phone number not found!";
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(msg), backgroundColor: Colors.red),
+        );
+      } finally {
+        if (mounted) setState(() => isLoading = false);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +61,14 @@ class ForgetPasswordView extends StatelessWidget {
           key: formKey,
           child: SingleChildScrollView(
             padding: EdgeInsets.all(14.r),
-
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                AppBack(),
+                const AppBack(),
                 SizedBox(height: 48.h),
-                AppImage(image: "logo.png", height: 64.h, width: 64.w),
+                Center(
+                  child: AppImage(image: "logo.png", height: 64.h, width: 64.w),
+                ),
                 SizedBox(height: 24.h),
                 Center(
                   child: Text(
@@ -35,7 +76,7 @@ class ForgetPasswordView extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 24.sp,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff434C6D),
+                      color: const Color(0xff434C6D),
                     ),
                   ),
                 ),
@@ -47,43 +88,34 @@ class ForgetPasswordView extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
-                      color: Color(0xff8E8EA9),
+                      color: const Color(0xff8E8EA9),
                     ),
                   ),
                 ),
                 SizedBox(height: 24.h),
                 AppInput(
+                  controller: phoneController,
                   keyboardType: TextInputType.number,
                   label: "Phone Number",
                   withCountryCode: true,
-                  bottomSpace: 56,
+                  bottomSpace: 56.h,
                 ),
                 SizedBox(height: 44.h),
                 AppButton(
-                  text: "Next",
-                  onPressed: () {
-                    if (formKey.currentState?.validate() ?? false) {
-                      goTo(page: OtpView(), canPop: false);
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            "Sorry You Should Put Your Number ....",
-                          ),
-                          backgroundColor: Colors.red.shade800,
-                        ),
-                      );
-                    }
-                  },
+                  text: isLoading ? "Sending..." : "Next",
+                  onPressed: isLoading ? null : sendCode,
                 ),
-                // Align(
-                //   alignment: AlignmentDirectional.center,
-                //     child: AppLoginOrRegister()),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    phoneController.dispose();
+    super.dispose();
   }
 }

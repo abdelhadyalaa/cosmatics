@@ -1,4 +1,4 @@
-import 'package:cosmetics_app/views/home/view.dart';
+import 'package:cosmetics_app/views/auth/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -92,21 +92,7 @@ class MyApp extends StatelessWidget {
 
           colorScheme: ColorScheme.fromSeed(seedColor: Color(0xffD75D72)),
         ),
-        home: PageView(
-          children: [
-            // PinLocationView(),
-            // CheckOutView(),
-            // OtpView(),
-            // PageOne(),
-            // SplashScreen(),
-            // NewPasswordView(),
-            // ForgetPasswordView(),
-            HomeView(),
-            // CartPage(),
-            // CreateAccountView(),
-            // LoginView()
-          ],
-        ),
+        home: LoginView(),
         navigatorKey: navKey,
       ),
     );
