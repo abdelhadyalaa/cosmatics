@@ -1,14 +1,15 @@
-import 'package:cosmetics_app/core/logic/helper_methods.dart';
-import 'package:cosmetics_app/core/ui/app_back.dart';
-import 'package:cosmetics_app/core/ui/app_verify_code.dart';
-import 'package:cosmetics_app/views/auth/success_dialog.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:dio/dio.dart';
-
+import '../../core/logic/dio_helper.dart';
+import '../../core/logic/end_points.dart';
+import '../../core/logic/helper_methods.dart';
+import '../../core/ui/app_back.dart';
 import '../../core/ui/app_button.dart';
 import '../../core/ui/app_image.dart';
+import '../../core/ui/app_verify_code.dart';
 import '../../core/ui/app_resend_otp.dart';
+import '../auth/success_dialog.dart';
 import 'new_password.dart';
 
 class OtpView extends StatefulWidget {
@@ -29,35 +30,55 @@ class _OtpViewState extends State<OtpView> {
   final formKey = GlobalKey<FormState>();
   final otpController = TextEditingController();
   bool isLoading = false;
+  void resendOtp() async {
+    otpController.clear();
+    try {
+      final response = await DioHelper(dio: Dio()).postData(
+        EndPoints.resendOtp,
+        data: {"phoneNumber": widget.phone.trim(), "countryCode": "+20"},
+      );
+
+      if (response != null && mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("A new code has been sent to your phone"),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
+    } on DioException catch (ex) {
+      if (!mounted) return;
+      String msg = ex.response?.data["message"] ?? "Failed to resend code";
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(msg), backgroundColor: Colors.red));
+    }
+  }
 
   void verifyOtp() async {
     if (formKey.currentState?.validate() ?? false) {
       setState(() => isLoading = true);
-
       try {
-        final response = await Dio().post(
-          "http://www.cosmatics.growfet.com/api/Auth/verify-otp",
+        final response = await DioHelper(dio: Dio()).postData(
+          EndPoints.verifyOtp,
           data: {
             "otpCode": otpController.text,
-            "phoneNumber": widget.phone,
+            "phoneNumber": widget.phone.trim(),
             "countryCode": "+20",
           },
         );
 
-        if (response.statusCode == 200) {
-          if (mounted) {
-            if (widget.isFromCreateAccount) {
-              showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (context) => SuccessDialog(isFromCreateAccount: true),
-              );
-            } else {
-              goTo(
-                page: CreatePasswordView(phone: widget.phone),
-                canPop: false,
-              );
-            }
+        if (response != null && response["message"] != null) {
+          if (!mounted) return;
+          if (widget.isFromCreateAccount) {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) =>
+              const SuccessDialog(isFromCreateAccount: true),
+            );
+          } else {
+            goTo(page: CreatePasswordView(phone: widget.phone), canPop: false);
           }
         }
       } on DioException catch (e) {
@@ -71,6 +92,9 @@ class _OtpViewState extends State<OtpView> {
       }
     }
   }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -120,12 +144,11 @@ class _OtpViewState extends State<OtpView> {
                       ),
                       WidgetSpan(
                         child: Text(
-                          "+20 ${widget.phone}\t", // استخدام الرقم الحقيقي هنا
+                          "+20 ${widget.phone}\t",
                           textDirection: TextDirection.ltr,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
-                            color: const Color(0xff3B4569).withOpacity(.99),
                           ),
                         ),
                       ),
@@ -139,21 +162,23 @@ class _OtpViewState extends State<OtpView> {
                 Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: TextButton(
-                    onPressed: () {
-                      Navigator.pop(context); // يرجع يعدل الرقم
-                    },
+                    onPressed: () => Navigator.pop(context),
                     child: const Text("Edit the number"),
                   ),
                 ),
                 SizedBox(height: 20.h),
                 AppVerifyCode(controller: otpController),
                 SizedBox(height: 42.h),
-                const AppResendOtp(),
+
+                AppResendOtp(onResend: resendOtp),
+
                 SizedBox(height: 20.h),
-                AppButton(
-                  text: isLoading ? "Verifying..." : "Done",
-                  onPressed: isLoading ? null : verifyOtp,
-                ),
+                isLoading
+                    ? Center(child: CircularProgressIndicator())
+                    : AppButton(
+                        text: "Done",
+                        onPressed: isLoading ? null : verifyOtp,
+                      ),
               ],
             ),
           ),

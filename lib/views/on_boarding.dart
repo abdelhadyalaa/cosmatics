@@ -54,7 +54,7 @@ class _OnBoardingState extends State<OnBoarding> {
                   alignment: AlignmentDirectional.centerEnd,
                   child: TextButton(
                     onPressed: () {
-                      goTo(page: LoginView());
+                      goToLogin();
                     },
                     child: Text(
                       "Skip",
@@ -98,8 +98,7 @@ class _OnBoardingState extends State<OnBoarding> {
                       padding: const EdgeInsets.symmetric(horizontal: 60.0),
                       child: AppButton(
                         onPressed: () {
-                          goTo(page: LoginView());
-                        },
+                          goToLogin();                        },
                         color: Color(0xff434C6D),
                         text: "let’s start!",
                       ),

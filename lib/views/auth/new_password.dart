@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dio/dio.dart';
 
-import '../../core/logic/helper_methods.dart';
+import '../../core/logic/dio_helper.dart';
+import '../../core/logic/end_points.dart';
 import '../../core/ui/app_button.dart';
 import '../../core/ui/app_image.dart';
 import '../../core/ui/app_input.dart';
@@ -26,6 +27,7 @@ class _CreatePasswordViewState extends State<CreatePasswordView> {
   void resetPassword() async {
     if (formKey.currentState!.validate()) {
       if (passwordController.text != confirmPasswordController.text) {
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text("Passwords do not match"),
@@ -38,18 +40,17 @@ class _CreatePasswordViewState extends State<CreatePasswordView> {
       setState(() => isLoading = true);
 
       try {
-
-        final response = await Dio().post(
-          "http://www.cosmatics.growfet.com/api/Auth/reset-password",
+        final response = await DioHelper(dio: Dio()).postData(
+          EndPoints.resetPassword,
           data: {
             "countryCode": "+20",
-            "phoneNumber": widget.phone,
-            "password": passwordController.text,
+            "phoneNumber": widget.phone.trim(),
+            "newPassword": passwordController.text,
             "confirmPassword": confirmPasswordController.text,
           },
         );
 
-        if (response.statusCode == 200) {
+        if (response != null) {
           if (mounted) {
             showDialog(
               context: context,
@@ -60,7 +61,11 @@ class _CreatePasswordViewState extends State<CreatePasswordView> {
           }
         }
       } on DioException catch (e) {
-        String msg = e.response?.data["message"] ?? "حدث خطأ في السيرفر";
+        if (!mounted) return;
+
+        String msg = e.response?.data["message"] ?? "Failed to reset password";
+
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(msg), backgroundColor: Colors.red),
         );
@@ -82,7 +87,11 @@ class _CreatePasswordViewState extends State<CreatePasswordView> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Center(
-                  child: AppImage(image: "logo.png", height: 64.h, width: 64.w),
+                  child: AppImage(
+                    image: "splash.png",
+                    height: 64.h,
+                    width: 64.w,
+                  ),
                 ),
                 SizedBox(height: 24.h),
                 Center(
@@ -106,7 +115,6 @@ class _CreatePasswordViewState extends State<CreatePasswordView> {
                   controller: passwordController,
                   label: "New password",
                   isPassword: true,
-
                 ),
                 AppInput(
                   controller: confirmPasswordController,
@@ -114,12 +122,9 @@ class _CreatePasswordViewState extends State<CreatePasswordView> {
                   isPassword: true,
                   bottomSpace: 70.h,
                 ),
-                AppButton(
-                  text: isLoading ? "Updating..." : "Confirm",
-                  onPressed: isLoading
-                      ? null
-                      : resetPassword,
-                ),
+                isLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : AppButton(text: "Confirm", onPressed: resetPassword),
               ],
             ),
           ),

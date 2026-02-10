@@ -1,4 +1,4 @@
-import 'package:cosmetics_app/views/auth/login.dart';
+import 'package:cosmetics_app/views/home/view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,84 +16,88 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: Size(390, 844),
-      minTextAdapt: true,
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: ScreenUtilInit(
+        designSize: Size(390, 844),
+        minTextAdapt: true,
 
-      splitScreenMode: true,
-      builder: (context, child) => MaterialApp(
-        builder: (context, child) {
-          return GestureDetector(
-            onTap: () {
-              FocusManager.instance.primaryFocus?.unfocus();
-            },
-            child: child,
-          );
-        },
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          filledButtonTheme: FilledButtonThemeData(
-            style: FilledButton.styleFrom(
-              fixedSize: Size.fromHeight(65),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(60),
+        splitScreenMode: true,
+        builder: (context, child) => MaterialApp(
+          builder: (context, child) {
+            return GestureDetector(
+              onTap: () {
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
+              child: child,
+            );
+          },
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            filledButtonTheme: FilledButtonThemeData(
+              style: FilledButton.styleFrom(
+                fixedSize: Size.fromHeight(65),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(60),
+                ),
               ),
             ),
+            fontFamily: "Montserrat",
+
+            cardColor: Color(0xffD9D9D9),
+            floatingActionButtonTheme: FloatingActionButtonThemeData(
+              backgroundColor: Color(0xff434C6D),
+            ),
+            appBarTheme: AppBarTheme(
+              centerTitle: true,
+              surfaceTintColor: Colors.transparent,
+
+              titleTextStyle: TextStyle(
+                color: Color(0xff434C6D),
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+            ),
+            inputDecorationTheme: InputDecorationTheme(
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: Color(0xff5A6690)),
+              ),
+              labelStyle: TextStyle(
+                fontSize: 12.sp,
+                color: Color(0xff8E8EA9).withValues(alpha: .4),
+              ),
+              floatingLabelStyle: TextStyle(
+                fontSize: 14,
+                color: Color(0xff8E8EA9),
+              ),
+              hintStyle: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                color: Color(0xff8E8EA9),
+              ),
+
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: Color(0xffB3B3C1)),
+              ),
+
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25),
+              ),
+            ),
+            scaffoldBackgroundColor: Color(0xffD9D9D9),
+
+            colorScheme: ColorScheme.fromSeed(seedColor: Color(0xffD75D72)),
           ),
-          fontFamily: "Montserrat",
-
-          cardColor: Color(0xffD9D9D9),
-          floatingActionButtonTheme: FloatingActionButtonThemeData(
-            backgroundColor: Color(0xff434C6D),
-          ),
-          appBarTheme: AppBarTheme(
-            centerTitle: true,
-            surfaceTintColor: Colors.transparent,
-
-            titleTextStyle: TextStyle(
-              color: Color(0xff434C6D),
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-          ),
-          inputDecorationTheme: InputDecorationTheme(
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(color: Color(0xff5A6690)),
-            ),
-            labelStyle: TextStyle(
-              fontSize: 12.sp,
-              color: Color(0xff8E8EA9).withValues(alpha: .4),
-            ),
-            floatingLabelStyle: TextStyle(
-              fontSize: 14,
-              color: Color(0xff8E8EA9),
-            ),
-            hintStyle: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: Color(0xff8E8EA9),
-            ),
-
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(color: Color(0xffB3B3C1)),
-            ),
-
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
-          ),
-          scaffoldBackgroundColor: Color(0xffD9D9D9),
-
-          colorScheme: ColorScheme.fromSeed(seedColor: Color(0xffD75D72)),
+          home: HomeView(),
+          navigatorKey: navKey,
         ),
-        home: LoginView(),
-        navigatorKey: navKey,
       ),
     );
   }

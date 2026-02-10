@@ -50,7 +50,10 @@ class SuccessDialog extends StatelessWidget {
         AppButton(
           text: isFromCreateAccount ? "Go to home" : "Return to login",
           onPressed: () {
-            goTo(page: isFromCreateAccount?LoginView():LoginView(), canPop: false);
+            goTo(
+              page: isFromCreateAccount ? HomeView() : LoginView(),
+              canPop: false,
+            );
           },
         ),
       ],

@@ -1,9 +1,11 @@
+import 'package:cosmetics_app/core/logic/dio_helper.dart';
+import 'package:cosmetics_app/core/logic/end_points.dart';
 import 'package:cosmetics_app/core/logic/helper_methods.dart';
 import 'package:cosmetics_app/core/ui/app_back.dart';
 import 'package:cosmetics_app/views/auth/otp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:dio/dio.dart'; // تأكد من استيراد dio
+import 'package:dio/dio.dart';
 
 import '../../core/ui/app_button.dart';
 import '../../core/ui/app_image.dart';
@@ -18,7 +20,7 @@ class ForgetPasswordView extends StatefulWidget {
 
 class _ForgetPasswordViewState extends State<ForgetPasswordView> {
   final formKey = GlobalKey<FormState>();
-  final phoneController = TextEditingController(); // لإمساك رقم الهاتف
+  final phoneController = TextEditingController();
   bool isLoading = false;
 
   void sendCode() async {
@@ -26,16 +28,23 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
       setState(() => isLoading = true);
 
       try {
-        final response = await Dio().post(
-          "http://www.cosmatics.growfet.com/api/Auth/forgot-password",
-          data: {"countryCode": "+20", "phoneNumber": phoneController.text},
+        final response = await DioHelper(dio: Dio()).postData(
+          EndPoints.forgetPassword,
+          data: {"countryCode": "+20", "phoneNumber": phoneController.text.trim()},
         );
 
-        if (response.statusCode == 200) {
+        if (response != null) {
           if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(response["message"] ?? "OTP Sent!"),
+                backgroundColor: Colors.green,
+              ),
+            );
+
             goTo(
               page: OtpView(
-                phone: phoneController.text,
+                phone:phoneController.text.trim() ,
                 isFromCreateAccount: false,
               ),
               canPop: true,

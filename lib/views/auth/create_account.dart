@@ -4,21 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dio/dio.dart';
 
+import '../../core/logic/dio_helper.dart';
+import '../../core/logic/end_points.dart';
 import '../../core/ui/app_button.dart';
 import '../../core/ui/app_image.dart';
 import '../../core/ui/app_input.dart';
 import '../../core/ui/app_login_or_register.dart';
-import '../home/view.dart';
 
 class CreateAccountView extends StatefulWidget {
-  CreateAccountView({super.key});
+  const CreateAccountView({super.key});
 
   @override
   State<CreateAccountView> createState() => _CreateAccountViewState();
 }
 
 class _CreateAccountViewState extends State<CreateAccountView> {
-  var formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
   final userNameController = TextEditingController();
   final phoneController = TextEditingController();
   final emailController = TextEditingController();
@@ -26,25 +27,42 @@ class _CreateAccountViewState extends State<CreateAccountView> {
   final confirmPasswordController = TextEditingController();
 
   bool isLoading = false;
+  String selectedCountryCode = "+20";
 
   void register() async {
     if (formKey.currentState?.validate() ?? false) {
+      if (passwordController.text != confirmPasswordController.text) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("كلمة المرور غير متطابقة"),
+            backgroundColor: Colors.orange,
+          ),
+        );
+        return;
+      }
+
       setState(() => isLoading = true);
 
       try {
-        final response = await Dio().post(
-          "http://www.cosmatics.growfet.com/api/Auth/register",
+        final response = await DioHelper(dio: Dio()).postData(
+          EndPoints.register,
           data: {
             "username": userNameController.text,
-            "countryCode": "+20",
+            "countryCode": selectedCountryCode,
             "phoneNumber": phoneController.text,
             "email": emailController.text,
             "password": passwordController.text,
           },
         );
 
-        if (response.statusCode == 200) {
-          goTo(page: OtpView(phone: phoneController.text,isFromCreateAccount: true,), canPop: false);
+        if (response != null) {
+          goTo(
+            page: OtpView(
+              phone: phoneController.text,
+              isFromCreateAccount: true,
+            ),
+            canPop: false,
+          );
         }
       } on DioException catch (e) {
         String errorMessage =
@@ -65,14 +83,13 @@ class _CreateAccountViewState extends State<CreateAccountView> {
         child: Form(
           key: formKey,
           child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 14.0, vertical: 10),
-
+            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Center(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 40.0),
+                    padding: EdgeInsets.symmetric(vertical: 40.h),
                     child: AppImage(
                       image: "splash.png",
                       height: 70.h,
@@ -80,25 +97,31 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                     ),
                   ),
                 ),
-                SizedBox(height: 24.h),
                 Center(
                   child: Text(
                     "Create Account",
                     style: TextStyle(
                       fontSize: 24.sp,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff434C6D),
+                      color: const Color(0xff434C6D),
                     ),
                   ),
                 ),
                 SizedBox(height: 50.h),
-
                 AppInput(controller: userNameController, label: "Your Name"),
                 AppInput(
                   controller: phoneController,
                   withCountryCode: true,
                   label: "Phone Number",
+                  onCountryCodeChanged: (value) {
+                    selectedCountryCode = value;
+                  },
                   keyboardType: TextInputType.number,
+                ),
+                AppInput(
+                  controller: emailController,
+                  label: "Email Address",
+                  keyboardType: TextInputType.emailAddress,
                 ),
                 AppInput(
                   controller: passwordController,
@@ -110,17 +133,30 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                   isPassword: true,
                   label: "Confirm password",
                 ),
-                SizedBox(height: 90.h),
-                AppButton(
-                  text: isLoading ? "Loading..." : "Next",
-                  onPressed: isLoading ? null : register,
-                ),
+                SizedBox(height: 40.h),
+                isLoading
+                    ? Center(child: CircularProgressIndicator())
+                    : AppButton(
+                        text: "Next",
+                        onPressed: isLoading ? null : register,
+                      ),
+                SizedBox(height: 20.h),
               ],
             ),
           ),
         ),
       ),
-      bottomNavigationBar: AppLoginOrRegister(isLogin: false),
+      bottomNavigationBar: const AppLoginOrRegister(isLogin: false),
     );
+  }
+
+  @override
+  void dispose() {
+    userNameController.dispose();
+    phoneController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
   }
 }
