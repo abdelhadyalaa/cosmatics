@@ -1,6 +1,6 @@
 import 'package:cosmetics_app/views/home/pages/cart.dart';
-import 'package:cosmetics_app/views/home/pages/categories.dart';
-import 'package:cosmetics_app/views/home/pages/home.dart';
+import 'package:cosmetics_app/views/home/pages/categories/view.dart';
+import 'package:cosmetics_app/views/home/pages/home/view.dart';
 import 'package:cosmetics_app/views/home/pages/profile/view.dart';
 import 'package:flutter/material.dart';
 import '../../core/ui/app_image.dart';
