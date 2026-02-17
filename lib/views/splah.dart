@@ -1,6 +1,9 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:cosmetics_app/core/logic/cache_helper.dart';
+import 'package:cosmetics_app/views/auth/login.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../core/logic/helper_methods.dart';
 import '../core/ui/app_image.dart';
@@ -17,7 +20,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    goTo(delaySeconds: 5, page: OnBoarding());
+
+    goTo(
+      delaySeconds: 5,
+      page: CashHelper.isFirstTime ? OnBoarding() : LoginView(),
+    );
   }
 
   @override
@@ -31,12 +38,12 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               AppImage(
                 image: "splash.png",
-                height: 200,
-                width: 200,
+                height: 200.h,
+                width: 200.w,
                 bottomSpace: 16,
               ),
               SizedBox.shrink(),
-              AppImage(image: "splash_text.png", height: 46, width: 120),
+              AppImage(image: "splash_text.png", height: 46.h, width: 120.w),
             ],
           ),
         ),

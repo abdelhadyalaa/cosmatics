@@ -1,4 +1,6 @@
+import 'package:cosmetics_app/core/logic/cache_helper.dart';
 import 'package:cosmetics_app/views/home/view.dart';
+import 'package:cosmetics_app/views/splah.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,7 +11,7 @@ late SharedPreferences prefs;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await CashHelper.init();
   runApp(const MyApp());
 }
 
@@ -95,7 +97,7 @@ class MyApp extends StatelessWidget {
 
             colorScheme: ColorScheme.fromSeed(seedColor: Color(0xffD75D72)),
           ),
-          home: HomeView(),
+          home: SplashScreen(),
           navigatorKey: navKey,
         ),
       ),

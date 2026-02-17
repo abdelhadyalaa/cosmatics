@@ -1,4 +1,4 @@
-import 'package:cosmetics_app/views/home/pages/cart.dart';
+import 'package:cosmetics_app/views/home/pages/cart/view.dart';
 import 'package:cosmetics_app/views/home/pages/categories/view.dart';
 import 'package:cosmetics_app/views/home/pages/home/view.dart';
 import 'package:cosmetics_app/views/home/pages/profile/view.dart';

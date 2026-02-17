@@ -9,6 +9,8 @@ class EndPoints {
   static const String offerHome = "/api/Sliders";
   static const String productHome = "/api/Products";
   static const String categoriesHome = "/api/Categories";
+  static const String cart = "/api/Cart";
+  static const String addCart = "/api/Cart/add";
 }
 
 class ApiKeys {

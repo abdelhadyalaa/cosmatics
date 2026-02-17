@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'end_points.dart';
 
+enum DataState { loading, success, failed }
+
 class DioHelper {
   final Dio dio;
 

@@ -22,14 +22,16 @@ class _LoginViewState extends State<LoginView> {
   final formKey = GlobalKey<FormState>();
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
-  bool isLoading = false;
 
   String selectedCountryCode = "+20";
+  DataState state = DataState.success;
+
   void login() async {
     if (formKey.currentState?.validate() ?? false) {
-      setState(() => isLoading = true);
+      setState(() => state = DataState.loading);
 
       try {
+        state = DataState.loading;
         final response = await DioHelper(dio: Dio()).postData(
           EndPoints.login,
           data: {
@@ -40,6 +42,7 @@ class _LoginViewState extends State<LoginView> {
         );
 
         if (response != null && response["token"] != null) {
+          state = DataState.success;
 
           String token = response["token"];
           print("Success! Token is: $token");
@@ -47,12 +50,13 @@ class _LoginViewState extends State<LoginView> {
           goTo(page: const HomeView(), canPop: false);
         }
       } on DioException catch (e) {
-        String errorMessage = e.response?.data["message"] ?? "حدث خطأ ما، حاول لاحقاً";
+        state = DataState.failed;
+
+        String errorMessage =
+            e.response?.data["message"] ?? "حدث خطأ ما، حاول لاحقاً";
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(errorMessage), backgroundColor: Colors.red),
         );
-      } finally {
-        if (mounted) setState(() => isLoading = false);
       }
     }
   }
@@ -71,7 +75,10 @@ class _LoginViewState extends State<LoginView> {
                 AppImage(image: "login_img.png", height: 277.h, width: 284.w),
                 SizedBox(height: 24.h),
                 const Center(
-                  child: Text("Login Now", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                  child: Text(
+                    "Login Now",
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
                 ),
                 SizedBox(height: 24.h),
                 AppInput(
@@ -97,10 +104,12 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ),
                 SizedBox(height: 44.h),
-                isLoading ? Center(child: CircularProgressIndicator()) : AppButton(
-                  text:"Login",
-                  onPressed: isLoading ? null : login,
-                ),
+                state==DataState.loading
+                    ? Center(child: CircularProgressIndicator())
+                    : AppButton(
+                        text: "Login",
+                        onPressed: state==DataState.loading ? null : login,
+                      ),
               ],
             ),
           ),

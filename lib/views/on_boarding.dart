@@ -1,3 +1,5 @@
+import 'package:cosmetics_app/core/logic/cache_helper.dart';
+import 'package:cosmetics_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -40,6 +42,7 @@ class _OnBoardingState extends State<OnBoarding> {
     bool isLast = currentIndex == list.length - 1;
     final currentModel = list[currentIndex];
     void goToLogin() {
+      CashHelper.setIsNotFirstTime();
       goTo(page: LoginView());
     }
 
@@ -98,7 +101,8 @@ class _OnBoardingState extends State<OnBoarding> {
                       padding: const EdgeInsets.symmetric(horizontal: 60.0),
                       child: AppButton(
                         onPressed: () {
-                          goToLogin();                        },
+                          goToLogin();
+                        },
                         color: Color(0xff434C6D),
                         text: "let’s start!",
                       ),
