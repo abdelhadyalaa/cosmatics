@@ -118,7 +118,7 @@ class _Item extends StatelessWidget {
             child: GestureDetector(
               onTap: () async {
                 try {
-                  final resp = await DioHelper(dio: Dio()).postData(
+                  final resp = await DioHelper().postData(
                     EndPoints.addCart,
                     data: {
                       "id": model.id,

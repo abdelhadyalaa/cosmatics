@@ -19,7 +19,7 @@ class _OffersState extends State<_Offers> {
 
   void getData() async {
     try {
-      final resp = await DioHelper(dio: Dio()).getData(EndPoints.offerHome);
+      final resp = await DioHelper().getData(EndPoints.offerHome);
 
       if (resp != null && resp is List) {
         setState(() {

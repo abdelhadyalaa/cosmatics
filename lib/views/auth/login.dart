@@ -1,3 +1,4 @@
+import 'package:cosmetics_app/core/logic/cache_helper.dart';
 import 'package:cosmetics_app/core/logic/helper_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,15 +25,13 @@ class _LoginViewState extends State<LoginView> {
   final passwordController = TextEditingController();
 
   String selectedCountryCode = "+20";
-  DataState state = DataState.success;
+  DataState? state;
 
   void login() async {
     if (formKey.currentState?.validate() ?? false) {
-      setState(() => state = DataState.loading);
-
       try {
         state = DataState.loading;
-        final response = await DioHelper(dio: Dio()).postData(
+        final response = await DioHelper().postData(
           EndPoints.login,
           data: {
             "phoneNumber": phoneController.text,
@@ -43,9 +42,10 @@ class _LoginViewState extends State<LoginView> {
 
         if (response != null && response["token"] != null) {
           state = DataState.success;
-
+          final model = UserData.fromJson(response);
           String token = response["token"];
           print("Success! Token is: $token");
+          await CashHelper.saveUserData(model);
 
           goTo(page: const HomeView(), canPop: false);
         }
@@ -104,11 +104,11 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ),
                 SizedBox(height: 44.h),
-                state==DataState.loading
+                state == DataState.loading
                     ? Center(child: CircularProgressIndicator())
                     : AppButton(
                         text: "Login",
-                        onPressed: state==DataState.loading ? null : login,
+                        onPressed: state == DataState.loading ? null : login,
                       ),
               ],
             ),
@@ -117,5 +117,35 @@ class _LoginViewState extends State<LoginView> {
       ),
       bottomNavigationBar: const AppLoginOrRegister(),
     );
+  }
+}
+
+class UserData {
+  late final String token;
+  late final UserModel user;
+
+  UserData.fromJson(Map<String, dynamic> json) {
+    token = json['token'];
+    user = UserModel.fromJson(json['user']);
+  }
+}
+
+class UserModel {
+  late final int id;
+  late final String username;
+  late final String email;
+  late final String phoneNumber;
+  late final String countryCode;
+  late final String role;
+  late final String profilePhotoUrl;
+
+  UserModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'] ?? 0;
+    username = json['username'] ?? "";
+    email = json['email'] ?? "";
+    phoneNumber = json['phoneNumber'] ?? "";
+    countryCode = json['countryCode'] ?? "";
+    role = json['role'] ?? "";
+    profilePhotoUrl = json['profilePhotoUrl'] ?? "";
   }
 }

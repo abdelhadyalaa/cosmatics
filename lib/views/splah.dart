@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cosmetics_app/core/logic/cache_helper.dart';
 import 'package:cosmetics_app/views/auth/login.dart';
+import 'package:cosmetics_app/views/home/view.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,7 +24,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
     goTo(
       delaySeconds: 5,
-      page: CashHelper.isFirstTime ? OnBoarding() : LoginView(),
+      page: CashHelper.isFirstTime
+          ? OnBoarding()
+          : CashHelper.isAuth
+          ? HomeView()
+          : LoginView(),
     );
   }
 

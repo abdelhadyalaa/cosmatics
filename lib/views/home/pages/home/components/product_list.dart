@@ -19,7 +19,7 @@ class _ProductListState extends State<_ProductList> {
 
   void getData() async {
     try {
-      final resp = await DioHelper(dio: Dio()).getData(EndPoints.productHome);
+      final resp = await DioHelper().getData(EndPoints.productHome);
 
       if (resp != null && resp is List) {
         setState(() {

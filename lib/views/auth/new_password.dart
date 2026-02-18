@@ -40,7 +40,7 @@ class _CreatePasswordViewState extends State<CreatePasswordView> {
       setState(() => isLoading = true);
 
       try {
-        final response = await DioHelper(dio: Dio()).postData(
+        final response = await DioHelper().postData(
           EndPoints.resetPassword,
           data: {
             "countryCode": "+20",

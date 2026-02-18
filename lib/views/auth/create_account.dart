@@ -44,7 +44,7 @@ class _CreateAccountViewState extends State<CreateAccountView> {
       setState(() => isLoading = true);
 
       try {
-        final response = await DioHelper(dio: Dio()).postData(
+        final response = await DioHelper().postData(
           EndPoints.register,
           data: {
             "username": userNameController.text,

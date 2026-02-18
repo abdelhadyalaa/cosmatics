@@ -4,15 +4,16 @@ import 'end_points.dart';
 enum DataState { loading, success, failed }
 
 class DioHelper {
-  final Dio dio;
+  late final Dio dio;
 
-  DioHelper({required this.dio, String? token}) {
+  DioHelper() {
+    dio = Dio();
+
     dio.options.baseUrl = EndPoints.baseUrl;
 
     dio.options.headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      if (token != null) 'Authorization': 'Bearer $token',
     };
 
     dio.interceptors.add(

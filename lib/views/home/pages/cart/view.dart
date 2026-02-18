@@ -30,7 +30,7 @@ class _CartPageState extends State<CartPage> {
 
   Future<void> getCartData() async {
     try {
-      final resp = await DioHelper(dio: Dio()).getData(EndPoints.cart);
+      final resp = await DioHelper().getData(EndPoints.cart);
       if (resp != null) {
         model = CartResponseModel.fromJson(resp);
       }

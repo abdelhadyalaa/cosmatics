@@ -33,7 +33,7 @@ class _OtpViewState extends State<OtpView> {
   void resendOtp() async {
     otpController.clear();
     try {
-      final response = await DioHelper(dio: Dio()).postData(
+      final response = await DioHelper().postData(
         EndPoints.resendOtp,
         data: {"phoneNumber": widget.phone.trim(), "countryCode": "+20"},
       );
@@ -59,7 +59,7 @@ class _OtpViewState extends State<OtpView> {
     if (formKey.currentState?.validate() ?? false) {
       setState(() => isLoading = true);
       try {
-        final response = await DioHelper(dio: Dio()).postData(
+        final response = await DioHelper().postData(
           EndPoints.verifyOtp,
           data: {
             "otpCode": otpController.text,

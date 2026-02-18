@@ -29,7 +29,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
 
   void getData() async {
     try {
-      final resp = await DioHelper(dio: Dio()).getData(EndPoints.categoriesHome);
+      final resp = await DioHelper().getData(EndPoints.categoriesHome);
       if (resp != null && resp is List) {
         list = resp.map((e) => CategoryModel.fromJson(e)).toList();
       }

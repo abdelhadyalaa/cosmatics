@@ -1,3 +1,4 @@
+import 'package:cosmetics_app/views/auth/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -17,16 +18,19 @@ class CashHelper {
   static bool get isFirstTime {
     return   _pref.getBool("isFirstTime")??true;
   }
+  static bool get isAuth {
+    return  ( _pref.getString("token")??"").isNotEmpty;
+  }
 
-  // static  Future<void> setUserDate(LoginResModel loginResModel) async {
-  //   await  _pref.setString("token", loginResModel.token);
-  //   await  _pref.setInt("id", loginResModel.user.id);
-  //   await  _pref.setString("username", loginResModel.user.username);
-  //   await  _pref.setString("email", loginResModel.user.email);
-  //   await  _pref.setString("phoneNumber", loginResModel.user.phoneNumber);
-  //   await  _pref.setString("countryCode", loginResModel.user.countryCode);
-  //   await  _pref.setString("role", loginResModel.user.role);
-  //   await  _pref.setString("profilePhotoUrl", loginResModel.user.profilePhotoUrl);
+  // static  Future<void> setUserDate(model model) async {
+  //   await  _pref.setString("token", model.token);
+  //   await  _pref.setInt("id", model.user.id);
+  //   await  _pref.setString("username", model.user.username);
+  //   await  _pref.setString("email", model.user.email);
+  //   await  _pref.setString("phoneNumber", model.user.phoneNumber);
+  //   await  _pref.setString("countryCode", model.user.countryCode);
+  //   await  _pref.setString("role", model.user.role);
+  //   await  _pref.setString("profilePhotoUrl", model.user.profilePhotoUrl);
   // }
   static String? getToken() {
     return  _pref.getString("token");
@@ -65,5 +69,16 @@ class CashHelper {
     await  _pref.remove("countryCode");
     await  _pref.remove("role");
     await  _pref.remove("profilePhotoUrl");
+  }
+
+  static Future<void> saveUserData(UserData model) async {
+    await  _pref.setString("token", model.token);
+    await  _pref.setInt("id", model.user.id);
+    await  _pref.setString("username", model.user.username);
+    await  _pref.setString("email", model.user.email);
+    await  _pref.setString("phoneNumber", model.user.phoneNumber);
+    await  _pref.setString("countryCode", model.user.countryCode);
+    await  _pref.setString("role", model.user.role);
+    await  _pref.setString("profilePhotoUrl", model.user.profilePhotoUrl);
   }
 }

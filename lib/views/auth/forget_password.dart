@@ -28,7 +28,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
       setState(() => isLoading = true);
 
       try {
-        final response = await DioHelper(dio: Dio()).postData(
+        final response = await DioHelper().postData(
           EndPoints.forgetPassword,
           data: {"countryCode": "+20", "phoneNumber": phoneController.text.trim()},
         );
