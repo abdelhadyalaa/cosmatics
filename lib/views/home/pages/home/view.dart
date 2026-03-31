@@ -1,5 +1,4 @@
 import 'package:cosmetics_app/core/logic/dio_helper.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:math';
@@ -9,6 +8,7 @@ import '../../../../core/ui/app_image.dart';
 import '../../../../core/ui/app_search.dart';
 
 part 'components/offers.dart';
+
 part 'components/product_list.dart';
 
 class HomePage extends StatefulWidget {
@@ -118,24 +118,19 @@ class _Item extends StatelessWidget {
             child: GestureDetector(
               onTap: () async {
                 try {
-                  final resp = await DioHelper().postData(
+                  final resp = await DioHelper.postData(
                     EndPoints.addCart,
-                    data: {
-                      "id": model.id,
-                      "amount": 1,
-                    },
+                    queryParameters: {"productId": model.id, "quantity": 1},
                   );
 
-                  if (resp != null && resp.statusCode == 200) {
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(resp.data["message"] ?? "Item added to cart."),
-                          backgroundColor: Colors.green,
-                          behavior: SnackBarBehavior.floating,
-                        ),
-                      );
-                    }
+                  if (resp != null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(resp["message"] ?? "Item added to cart."),
+                        backgroundColor: Colors.green,
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
                   }
                 } catch (e) {
                   debugPrint("Add to cart error: $e");

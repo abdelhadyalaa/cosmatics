@@ -26,6 +26,7 @@ dependencies:
   geolocator: ^14.0.2
   shared_preferences: ^2.5.4
   dio: ^5.9.0
+  flutter_bloc: ^9.1.1
 
 dev_dependencies:
   flutter_test:

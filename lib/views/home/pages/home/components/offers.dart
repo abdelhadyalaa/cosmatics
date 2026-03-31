@@ -19,7 +19,7 @@ class _OffersState extends State<_Offers> {
 
   void getData() async {
     try {
-      final resp = await DioHelper().getData(EndPoints.offerHome);
+      final resp = await DioHelper.getData(EndPoints.offerHome);
 
       if (resp != null && resp is List) {
         setState(() {
@@ -75,27 +75,30 @@ class _OffersState extends State<_Offers> {
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) => AppImage(
                 image:
-                    "https://img.buzzfeed.com/buzzfeed-static/static/2019-08/16/2/asset/2f2486d35771/sub-buzz-2247-1565922471-1.jpg",
+                "https://img.buzzfeed.com/buzzfeed-static/static/2019-08/16/2/asset/2f2486d35771/sub-buzz-2247-1565922471-1.jpg",
                 height: 320,
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
             ),
+
             Container(
               padding: const EdgeInsets.all(18),
               decoration: BoxDecoration(
                 color: const Color(0xffE9DCD3).withOpacity(0.8),
               ),
-              height: 151,
               width: double.infinity,
+
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,  
                 children: [
                   Row(
                     children: [
                       Expanded(
                         child: Text(
                           "${model.discountPercent}% OFF DISCOUNT \nCUPON CODE : ${model.couponCode}",
+                          maxLines: 2,  
+                          overflow: TextOverflow.ellipsis,  
                           style: const TextStyle(
                             color: Color(0xff62322D),
                             fontSize: 16,
@@ -106,12 +109,16 @@ class _OffersState extends State<_Offers> {
                       const AppImage(image: "offer.svg"),
                     ],
                   ),
+                  SizedBox(height: 8), // spacing لطيف
+
                   Row(
                     children: [
                       const AppImage(image: "offer.svg"),
                       Expanded(
                         child: Text(
                           "${model.descriptionTitle1} \n${model.descriptionTitle2}",
+                          maxLines: 2, 
+                          overflow: TextOverflow.ellipsis, 
                           textAlign: TextAlign.end,
                           style: const TextStyle(
                             color: Color(0xff434C6D),
@@ -142,11 +149,10 @@ class OfferModel {
 
   OfferModel.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? 0;
-    couponCode = json['couponCode'] ?? 0;
+    couponCode = json['couponCode'] ?? "";
     discountPercent = json['discountPercent'] ?? 0;
     descriptionTitle1 = json['descriptionTitle1'] ?? "";
     descriptionTitle2 = json['descriptionTitle2'] ?? "";
     imageUrl = json['imageUrl'] ?? "";
   }
 }
-

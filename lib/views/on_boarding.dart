@@ -1,12 +1,11 @@
 import 'package:cosmetics_app/core/logic/cache_helper.dart';
-import 'package:cosmetics_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../core/logic/helper_methods.dart';
 import '../core/ui/app_button.dart';
 import '../core/ui/app_image.dart';
-import 'auth/login.dart';
+import 'auth/login/view.dart';
 
 class OnBoarding extends StatefulWidget {
   const OnBoarding({super.key});

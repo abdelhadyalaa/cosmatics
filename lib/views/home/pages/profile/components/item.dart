@@ -1,4 +1,5 @@
 part of '../view.dart';
+
 class _Item extends StatelessWidget {
   final String title;
   final VoidCallback? onTap;
@@ -15,11 +16,33 @@ class _Item extends StatelessWidget {
       child: ListTile(
         onTap: page == null
             ? null
-            : () {
-          goTo(page: page!);
+            : () async {
+          if (isLogout) {
+            try {
+              await DioHelper.postData(EndPoints.logOut);
+            } on DioException catch (e) {
+              if (e.response?.statusCode != 401) {
+                showMsg("Something went wrong");
+                return;
+              }
+            }
+
+            await CashHelper.removeUserDate();
+            DioHelper().setToken("");
+
+            if (context.mounted) {
+              goTo(page: page!, canPop: false);
+            }
+          } else {
+            goTo(page: page!);
+          }
         },
+
         leading: AppImage(image: image),
-        title: Text(title, style: TextStyle(color: isLogout ? Colors.red : null)),
+        title: Text(
+          title,
+          style: TextStyle(color: isLogout ? Colors.red : null),
+        ),
         trailing: isLogout ? null : AppImage(image: "forward.svg"),
       ),
     );

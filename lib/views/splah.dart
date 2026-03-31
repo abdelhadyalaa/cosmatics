@@ -1,6 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cosmetics_app/core/logic/cache_helper.dart';
-import 'package:cosmetics_app/views/auth/login.dart';
+import 'package:cosmetics_app/views/auth/login/view.dart';
 import 'package:cosmetics_app/views/home/view.dart';
 
 import 'package:flutter/material.dart';

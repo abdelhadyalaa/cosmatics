@@ -1,8 +1,6 @@
-import 'dart:math'; // مهم جداً عشان Random يشتغل
-import 'package:dio/dio.dart' show Dio;
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../core/logic/dio_helper.dart';
 import '../../../../core/logic/end_points.dart';
 import '../../../../core/ui/app_image.dart';
@@ -21,6 +19,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
   List<CategoryModel>? list;
   bool isLoading = true;
 
+
   @override
   void initState() {
     super.initState();
@@ -29,7 +28,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
 
   void getData() async {
     try {
-      final resp = await DioHelper().getData(EndPoints.categoriesHome);
+      final resp = await DioHelper.getData(EndPoints.categoriesHome);
       if (resp != null && resp is List) {
         list = resp.map((e) => CategoryModel.fromJson(e)).toList();
       }

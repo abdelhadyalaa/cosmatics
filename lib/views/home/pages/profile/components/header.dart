@@ -1,7 +1,8 @@
 part of '../view.dart';
 
 class _Header extends StatelessWidget {
-  const _Header();
+  final UserModel user;
+  const _Header(this.user);
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +33,15 @@ class _Header extends StatelessWidget {
                   isCircle: true,
                   height: 96.h,
                   width: 96.w,
+
                   image:
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTefdAYZ6uy2rn4ODl9zSL1KwCAhiEPo9Xm-g&s",
+                  user.profilePhotoUrl,
+                  errorImage: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYO-RnslVwrpn-JSpQJ_MjYOzZrAa5WBIaoA&s",
+
                 ),
                 SizedBox(height: 16.h),
                 Text(
-                  "Sara Samer Talaat",
+                  user.username,
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                 ),
               ],

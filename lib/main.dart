@@ -1,18 +1,20 @@
 import 'package:cosmetics_app/core/logic/cache_helper.dart';
-import 'package:cosmetics_app/views/home/view.dart';
 import 'package:cosmetics_app/views/splah.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'core/logic/dio_helper.dart';
 import 'core/logic/helper_methods.dart';
 
 late SharedPreferences prefs;
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CashHelper.init();
-  runApp(const MyApp());
+  final token = CashHelper.token;
+  if (token.isNotEmpty) {
+    DioHelper().setToken(token);
+  }  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -20,14 +22,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: ScreenUtilInit(
         designSize: Size(390, 844),
         minTextAdapt: true,
-
         splitScreenMode: true,
         builder: (context, child) => MaterialApp(
+
           builder: (context, child) {
             return GestureDetector(
               onTap: () {

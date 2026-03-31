@@ -1,34 +1,38 @@
+import 'package:cosmetics_app/core/logic/cache_helper.dart';
+import 'package:cosmetics_app/core/logic/helper_methods.dart';
 import 'package:dio/dio.dart';
+import '../../views/auth/login/view.dart';
 import 'end_points.dart';
 
-enum DataState { loading, success, failed }
+enum DataState { initial,loading, success, failed }
 
 class DioHelper {
-  late final Dio dio;
-
-  DioHelper() {
-    dio = Dio();
-
-    dio.options.baseUrl = EndPoints.baseUrl;
-
-    dio.options.headers = {
+  static final dio = Dio()
+    ..options.baseUrl = EndPoints.baseUrl
+    ..options.headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-    };
-
-    dio.interceptors.add(
-      LogInterceptor(
-        request: true,
-        requestHeader: true,
-        requestBody: true,
-        responseHeader: true,
-        responseBody: true,
-        error: true,
+    }
+    ..interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          final token = CashHelper.token;
+          if (token.isNotEmpty) {
+            options.headers['Authorization'] = 'Bearer $token';
+          }
+          return handler.next(options);
+        },
+        onError: (DioException error, handler) async {
+          if (error.response?.statusCode == 401) {
+            await CashHelper.removeUserDate();
+            goToLogin();
+          }
+          return handler.next(error);
+        },
       ),
     );
-  }
 
-  Future postData(
+  static Future postData(
     String path, {
     Object? data,
     Map<String, dynamic>? queryParameters,
@@ -45,16 +49,58 @@ class DioHelper {
     }
   }
 
-  void setToken(String token) {
-    dio.options.headers['Authorization'] = 'Bearer $token';
-  }
-
-  Future getData(String path, {Map<String, dynamic>? queryParameters}) async {
+  static Future deleteData(
+    String path, {
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
-      final response = await dio.get(path, queryParameters: queryParameters);
+      final response = await dio.delete(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+      );
       return response.data;
     } on DioException {
       rethrow;
     }
+  }
+
+  void setToken(String token) {
+    dio.options.headers['Authorization'] = 'Bearer $token';
+  }
+
+  static Future getData(
+    String path, {
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    try {
+      final response = await dio.get(path, queryParameters: queryParameters);
+      return response.data;
+    } on DioException catch (ex) {
+      print("Error in getData: ${ex.response?.statusMessage}");
+      rethrow;
+    }
+  }
+
+  static Future putData(
+    String path, {
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    try {
+      final response = await dio.put(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+      );
+      return response.data;
+    } on DioException {
+      rethrow;
+    }
+  }
+
+  static void goToLogin() {
+    goTo(page: LoginView(), canPop: false);
   }
 }

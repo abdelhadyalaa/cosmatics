@@ -11,13 +11,14 @@ class CartResponseModel {
 }
 
 class CartItemModel {
-  late final int id, quantity;
+  late final int productId, quantity;
   late final String title, imageUrl;
   late final num price;
 
   CartItemModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'] ?? 0;
-    title = json['title'] ?? "";
+    productId = json['productId'] ?? 0;
+    title =
+        json['productName'] ?? "ARTDECO";
     imageUrl = json['imageUrl'] ?? "";
     price = json['price'] ?? 0;
     quantity = json['quantity'] ?? 1;

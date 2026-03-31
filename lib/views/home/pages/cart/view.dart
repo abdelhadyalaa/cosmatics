@@ -1,6 +1,7 @@
+import 'dart:math';
+
 import 'package:cosmetics_app/core/logic/dio_helper.dart'; // تأكد من استيراد المسار الصحيح
 import 'package:cosmetics_app/core/logic/end_points.dart';
-import 'package:dio/dio.dart';
 import 'package:cosmetics_app/core/logic/helper_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,7 +31,8 @@ class _CartPageState extends State<CartPage> {
 
   Future<void> getCartData() async {
     try {
-      final resp = await DioHelper().getData(EndPoints.cart);
+      final resp = await DioHelper.getData(EndPoints.cart);
+
       if (resp != null) {
         model = CartResponseModel.fromJson(resp);
       }
@@ -83,14 +85,24 @@ class _CartPageState extends State<CartPage> {
                     ),
                   ),
                   Expanded(
-                    child: ListView.separated(
-                      itemBuilder: (context, index) =>
-                          _Item(itemModel: model!.items[index]),
-                      separatorBuilder: (context, index) => const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 30.0),
-                        child: Divider(),
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 100.0),
+                      child: ListView.separated(
+                        itemBuilder: (context, index) => _Item(
+                          itemModel: model!.items[index],
+                          onDelete: () {
+                            setState(() {
+                              model!.items.removeAt(index);
+                            });
+                          },
+                        ),
+
+                        separatorBuilder: (context, index) => Padding(
+                          padding: EdgeInsets.symmetric(vertical: 30.0),
+                          child: Divider(),
+                        ),
+                        itemCount: model!.items.length,
                       ),
-                      itemCount: model!.items.length,
                     ),
                   ),
                 ],

@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 
 class AppImage extends StatelessWidget {
-  final String image;
+  final String image,errorImage;
   final double? height, width, bottomSpace;
   final bool isCircle;
   final Color? color;
@@ -18,7 +18,7 @@ class AppImage extends StatelessWidget {
     this.color,
     this.fit = BoxFit.scaleDown,
     this.bottomSpace,
-    this.isCircle = false,
+    this.isCircle = false,  this.errorImage="",
   });
 
   @override
@@ -48,6 +48,28 @@ class AppImage extends StatelessWidget {
               width: width,
               color: color,
               fit: myFit,
+              errorBuilder: (context, error, stackTrace) {
+                if (errorImage.isEmpty) {
+                  return const Icon(Icons.person, size: 40);
+                }
+
+                if (errorImage.startsWith("http")) {
+                  return Image.network(
+                    errorImage,
+                    height: height,
+                    width: width,
+                    fit: BoxFit.cover,
+                  );
+                }
+
+                return Image.asset(
+                  "assets/images/$errorImage",
+                  height: height,
+                  width: width,
+                  fit: BoxFit.cover,
+                );
+              },
+
             );
           } else if (image.endsWith("json")) {
             child = Lottie.asset(
